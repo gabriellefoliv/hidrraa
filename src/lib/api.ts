@@ -19,6 +19,10 @@ export const get = async (table: string) => {
     return await api.get(`/${table}`)   
 }
 
+export const getById = async (table: string, id: number) => {
+    return await api.get(`/${table}/${id}`)
+}
+
 export const create = async (table: string, data: GenericData) => {
     console.log(data)
     return await api.post(`/${table}`, {...data})

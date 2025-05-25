@@ -5,7 +5,11 @@ import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 
 export function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Carregando...</div>
+  }
 
   if (!user) {
     return <Navigate to="/" replace />;

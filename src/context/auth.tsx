@@ -26,6 +26,7 @@ interface AuthContextType {
   user: User | null;
   login: (data: LoginData) => Promise<void>;
   logout: () => Promise<void>;
+  loading: boolean;
 }
 
 interface AuthProviderProps {
@@ -41,8 +42,12 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-  
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("@App:user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+
   // Verificar se existe um token salvo ao iniciar a aplicação
   useEffect(() => {
     const storedToken = localStorage.getItem("@App:token");
@@ -52,6 +57,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
       setUser(JSON.parse(storedUser));
     }
+
+    setLoading(false)
   }, []);
 
   const login = async (data: LoginData): Promise<void> => {
@@ -91,7 +98,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         authenticated: !!user,
         user,
         login,
-        logout
+        logout,
+        loading
       }}
     >
       {children}

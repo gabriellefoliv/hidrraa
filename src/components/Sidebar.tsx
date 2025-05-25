@@ -1,17 +1,23 @@
-import { useAuth } from '@/context/auth'
+import { AuthContext, useAuth } from '@/context/auth'
 import {
   Users2,
-  User,
-  Drill,
-  Car,
-  Siren,
-  Calendar,
-  File,
+  Wallet,
+  Building,
+  PersonStanding,
+  BadgeCheck,
+  NotepadText,
+  ChevronUp,
 } from 'lucide-react'
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { Avatar, AvatarFallback } from './ui/avatar'
+import { useContext } from 'react'
 
 export default function SidebarRoutes() {
   const { user } = useAuth()
+
+  const { logout } = useContext(AuthContext)
+
   const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'membro_comite'
 
   const routesByPerfil: Record<
@@ -23,42 +29,36 @@ export default function SidebarRoutes() {
   > = {
     entidade_executora: [
       {
-        section: 'Members',
+        section: 'Projetos',
         routes: [
-          { name: 'Members', icon: Users2, href: '/members' },
-          { name: 'Register Member', icon: User, href: '/register' },
+          { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
         ],
       },
-      {
-        section: 'Items & Requests',
-        routes: [
-          { name: 'Materials', icon: Drill, href: '/materials' },
-          { name: 'Vehicles', icon: Car, href: '/vehicles' },
-          { name: 'Manage Requests', icon: Siren, href: '/requests' },
-        ],
-      },
+      
     ],
     investidor: [
       {
-        section: 'Investments',
+        section: 'Aporte',
         routes: [
-          { name: 'Portfolio', icon: File, href: '/portfolio' },
-          { name: 'Transactions', icon: Drill, href: '/transactions' },
-        ],
-      },
-      {
-        section: 'Reports',
-        routes: [
-          { name: 'Monthly Report', icon: Calendar, href: '/reports/monthly' },
-        ],
+          { name: 'Realizar Aporte', icon: Wallet, href: '/aporte' },
+          { name: 'Aportes Realizados', icon: Wallet, href: '/aportes-realizados' },],
       },
     ],
     membro_comite: [
       {
-        section: 'Committee',
+        section: 'Cadastros Básicos',
         routes: [
-          { name: 'Meetings', icon: Calendar, href: '/meetings' },
-          { name: 'Documents', icon: File, href: '/documents' },
+          { name: 'Cadastrar Microbacia', icon: BadgeCheck, href: '/microbacias' },
+          { name: 'Cadastrar Produtor Rural', icon: PersonStanding, href: '/produtores' },
+          { name: 'Cadastrar Propriedade', icon: Building, href: '/propriedades' },
+        ],
+      },
+      {
+        section: 'Avaliações',
+        routes: [
+          { name: 'Avaliar projeto', icon: NotepadText, href: '/avaliacoes' },
+          { name: 'Cadastrar Produtor Rural', icon: PersonStanding, href: '/documents' },
+          { name: 'Cadastrar Propriedade', icon: Building, href: '/properties' },
         ],
       },
     ],
@@ -69,7 +69,7 @@ export default function SidebarRoutes() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="bg-white motion-preset-slide-right-lg flex items-center relative px-4 h-20">
-        <h2>Hidrraa</h2>
+        <h2 className='m-2 p-4 text-sky-800 font-bold text-4xl'>Hidrraa</h2>
       </SidebarHeader>
 
       <SidebarContent className="bg-white motion-preset-slide-right-lg">
@@ -95,6 +95,47 @@ export default function SidebarRoutes() {
           ))}
         </SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter className="bg-white">
+        <SidebarMenu className="motion-preset-slide-right-lg">
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <Avatar className="bg-sky-300 text-white size-8">
+                    <AvatarFallback className='bg-cyan-800 text-white'>
+                      {user?.nome
+                      ?.split(' ')
+                      .filter(Boolean)
+                      .map(word => word[0])
+                      .slice(0, 2)
+                      .join('')
+                      .toUpperCase() || '??'}
+                    </AvatarFallback>
+                  </Avatar>
+                  {user?.nome}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width]"
+              >
+                <DropdownMenuItem>
+                  <span>Perfil pessoal</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className='hover:bg-red-600/75 transition duration-500 opacity-500 hover:text-white' 
+                  onClick={() => logout()}
+                >
+                  <span>Sair</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+
     </Sidebar>
   )
 }
