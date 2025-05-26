@@ -4,8 +4,8 @@ import { useAuth } from '@/context/auth'
 
 const routesByPerfil = {
   entidade_executora: [{ routes: [{ href: '/projeto' }] }],
-  investidor: [{ routes: [{ href: '/aporte' }] }],
-  membro_comite: [{ routes: [{ href: '/microbacias' }] }],
+  investidor: [{ routes: [{ href: '/aportes' }] }],
+  membro_comite: [{ routes: [{ href: '/validar-aportes' }] }],
 }
 
 export default function Home() {

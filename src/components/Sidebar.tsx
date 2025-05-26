@@ -3,10 +3,13 @@ import {
   Users2,
   Wallet,
   Building,
-  PersonStanding,
-  BadgeCheck,
-  NotepadText,
   ChevronUp,
+  DollarSign,
+  CircleDollarSign,
+  FileClock,
+  FileCheck,
+  Waves,
+  UserRoundPen,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -38,9 +41,9 @@ export default function SidebarRoutes() {
     ],
     investidor: [
       {
-        section: 'Aporte',
+        section: 'Aportes',
         routes: [
-          { name: 'Realizar Aporte', icon: Wallet, href: '/aporte' },
+          { name: 'Realizar Aporte', icon: DollarSign, href: '/aportes' },
           { name: 'Aportes Realizados', icon: Wallet, href: '/aportes-realizados' },],
       },
     ],
@@ -48,17 +51,22 @@ export default function SidebarRoutes() {
       {
         section: 'Cadastros Básicos',
         routes: [
-          { name: 'Cadastrar Microbacia', icon: BadgeCheck, href: '/microbacias' },
-          { name: 'Cadastrar Produtor Rural', icon: PersonStanding, href: '/produtores' },
-          { name: 'Cadastrar Propriedade', icon: Building, href: '/propriedades' },
+          { name: 'Microbacias', icon: Waves, href: '/microbacias' },
+          { name: 'Produtores Rurais', icon: UserRoundPen, href: '/produtores' },
+          { name: 'Propriedades', icon: Building, href: '/propriedades' },
         ],
       },
       {
         section: 'Avaliações',
         routes: [
-          { name: 'Avaliar projeto', icon: NotepadText, href: '/avaliacoes' },
-          { name: 'Cadastrar Produtor Rural', icon: PersonStanding, href: '/documents' },
-          { name: 'Cadastrar Propriedade', icon: Building, href: '/properties' },
+          { name: 'Projetos A Avaliar', icon: FileClock, href: '/avaliacoes' },
+          { name: 'Projetos Avaliados', icon: FileCheck, href: '/documents' },
+        ],
+      },
+      {
+        section: 'Aportes',
+        routes: [
+          { name: 'Validar Aporte', icon: CircleDollarSign, href: '/validar-aportes' },
         ],
       },
     ],

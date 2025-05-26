@@ -7,6 +7,9 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import SidebarRoutes from './components/Sidebar';
 import ModelosProjeto from './screens/ModelosProjeto';
 import SubmeterProjeto from './screens/SubmeterProjeto';
+import RealizarAporte from './screens/RealizarAporte';
+import AportesRealizados from './screens/AportesRealizados';
+import ValidarAporte from './screens/ValidarAporte';
 
 function App() {
 
@@ -32,6 +35,24 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <SubmeterProjeto />
+            </ProtectedRoute>
+          }/>
+          <Route path='/aportes' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <RealizarAporte />
+            </ProtectedRoute>
+          }/>
+          <Route path='/aportes-realizados' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <AportesRealizados />
+            </ProtectedRoute>
+          }/>
+          <Route path='/validar-aportes' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <ValidarAporte />
             </ProtectedRoute>
           }/>
         </Routes>
