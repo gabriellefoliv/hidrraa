@@ -60,7 +60,7 @@ export default function SidebarRoutes() {
         section: 'Avaliações',
         routes: [
           { name: 'Projetos A Avaliar', icon: FileClock, href: '/avaliacoes' },
-          { name: 'Projetos Avaliados', icon: FileCheck, href: '/documents' },
+          { name: 'Projetos Avaliados', icon: FileCheck, href: '/projetos-avaliados' },
         ],
       },
       {

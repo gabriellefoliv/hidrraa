@@ -10,6 +10,8 @@ import SubmeterProjeto from './screens/SubmeterProjeto';
 import RealizarAporte from './screens/RealizarAporte';
 import AportesRealizados from './screens/AportesRealizados';
 import ValidarAporte from './screens/ValidarAporte';
+import AvaliarProjetos from './screens/AvaliarProjeto';
+import ProjetosAvaliados from './screens/ProjetosAvaliados';
 
 function App() {
 
@@ -53,6 +55,18 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <ValidarAporte />
+            </ProtectedRoute>
+          }/>
+          <Route path='/avaliacoes' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <AvaliarProjetos />
+            </ProtectedRoute>
+          }/>
+          <Route path='/projetos-avaliados' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <ProjetosAvaliados />
             </ProtectedRoute>
           }/>
         </Routes>
