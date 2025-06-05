@@ -118,3 +118,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.rdp-month {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
