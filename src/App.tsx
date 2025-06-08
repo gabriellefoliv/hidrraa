@@ -3,10 +3,10 @@ import Login from './screens/Login';
 import Cadastro from './screens/Cadastro';
 import { AuthProvider } from './context/auth';
 import Home from './screens/Home';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { ProtectedRoute } from './components/Auth/ProtectedRoute';
 import SidebarRoutes from './components/Sidebar';
 import ModelosProjeto from './screens/ModelosProjeto';
-import SubmeterProjeto from './screens/SubmeterProjeto';
+import CriarProjeto from './screens/SubmeterProjeto';
 import RealizarAporte from './screens/RealizarAporte';
 import AportesRealizados from './screens/AportesRealizados';
 import ValidarAporte from './screens/ValidarAporte';
@@ -33,10 +33,10 @@ function App() {
               <ModelosProjeto />
             </ProtectedRoute>
           }/>
-          <Route path='/submeter-projeto' element={
+          <Route path='/submeter-projeto/:codTipoProjeto' element={
             <ProtectedRoute>
               <SidebarRoutes/>
-              <SubmeterProjeto />
+              <CriarProjeto />
             </ProtectedRoute>
           }/>
           <Route path='/aportes' element={

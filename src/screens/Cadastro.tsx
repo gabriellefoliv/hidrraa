@@ -1,4 +1,4 @@
-import { CadastroForm } from "@/components/CadastroForm"
+import { CadastroForm } from "@/components/Auth/CadastroForm"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useState } from "react"
 

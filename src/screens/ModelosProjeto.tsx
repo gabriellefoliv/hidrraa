@@ -1,7 +1,8 @@
 
+import { Button } from "@/components/ui/button";
 import { get } from "@/lib/api";
 import type { TipoProjeto } from "@/types/modelos";
-import { Search } from "lucide-react";
+import { ArrowRightIcon, Info, ListCheck, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -45,16 +46,27 @@ export default function ModelosProjeto() {
             {/* Listagem de modelos */}
             <div className="mt-8 space-y-6">
                 {tiposProjeto.map((tp) => (
-                    <div key={tp.id} className="bg-white rounded-lg p-6 shadow-md">
-                        <h2 className="text-2xl font-semibold text-sky-800 mb-2">{tp.nome}</h2>
-                        <p className="text-gray-700 mb-4">{tp.descricao}</p>
-
-                        <h3 className="text-lg font-semibold text-sky-700">Marcos Recomendados:</h3>
-                        <ul className="list-disc ml-6">
+                    <div key={tp.id} className="bg-white rounded-lg shadow-md">
+                        <div className="bg-sky-800/90 pl-4 p-4 rounded-t-2xl">
+                            <h2 className="text-xl font-bold flex items-center text-white">{tp.nome}</h2>
+                        </div>
+                        <div className="flex flex-col p-4">
+                            <div className="flex">
+                                <Info className="text-sky-800/90"/>
+                                <p className="ml-2 font-bold text-sky-600/90">Descrição</p>
+                            </div> 
+                            <p className="text-gray-700 mb-2">{tp.descricao}</p>
+                        </div>
+                        <div className="flex pl-4">
+                            <ListCheck className="text-sky-800/90"/>
+                            <h3 className="text-lg font-semibold text-sky-700 ml-2">Marcos Sugeridos</h3>
+                        </div>
+                        <ul className="p-4">
                             {tp.marcosRecomendados.map((marco) => (
-                                <li key={marco.codMarcoRecomendado}>
-                                    <strong>{marco.descricao}</strong> – R$ {marco.valorEstimado}
-                                    <ul className="list-disc ml-6 text-sm text-gray-600">
+                                <li key={marco.codMarcoRecomendado} className="border-2 p-4 mb-4">
+                                    <strong>{marco.descricao}</strong> 
+                                    <ul className="ml-6 text-sm text-gray-600">
+                                        <span className="font-bold">Evidências Típicas</span>
                                         {marco.evidenciasDemandadas.map((evid) => (
                                             <li key={evid.codEvidenciaDemandada}>
                                                 {evid.descricao} ({evid.tipoArquivo})
@@ -64,12 +76,13 @@ export default function ModelosProjeto() {
                                 </li>
                             ))}
                         </ul>
-                        <button
-                            onClick={() => navigate("/submeter-projeto", { state: { codTipoProjeto: tp.id } })}
-                            className="mt-4 bg-sky-800 text-white px-4 py-2 rounded-md hover:opacity-80 transition"
+                        <Button
+                            effect="expandIcon" icon={ArrowRightIcon} iconPlacement='right'
+                            onClick={() => navigate(`/submeter-projeto/${tp.id}`)}
+                            className="mx-6 mb-4 bg-sky-800 text-white rounded-md hover:opacity-80 transition"
                             >
                             Usar Modelo
-                        </button>
+                        </Button>
                     </div>
                 ))}
             </div>

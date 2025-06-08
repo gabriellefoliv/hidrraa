@@ -12,12 +12,12 @@ import {
 
 import { useState } from "react"
 
-interface DialogDemoProps {
+interface AporteModalProps {
     bc_valor: string
     onSubmit: () => void
 }
 
-export function AporteModal({bc_valor, onSubmit}: DialogDemoProps) {
+export function AporteModal({bc_valor, onSubmit}: AporteModalProps) {
 
     const [modalPage, setModalPage] = useState<1 | 2 | "closed">("closed")
     const handleSubmit = () => {
