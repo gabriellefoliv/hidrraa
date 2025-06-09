@@ -112,7 +112,7 @@ export default function FormularioAvaliacao({ projeto }: Props) {
         </label>
 
         <label className="flex flex-col md:col-span-2">
-          <span className="mb-1 text-gray-700 font-medium">Valor de Pagamento</span>
+          <span className="mb-1 text-gray-700 font-medium">Orçamento liberado ao projeto</span>
           <input
             type="number"
             value={bc_valorPagto}

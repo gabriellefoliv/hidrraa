@@ -13,8 +13,11 @@ interface Projeto {
     nome: string
     descricao: string
     marco_recomendado: {
-      descricao: string
-      valorEstimado: number
+      execucao_marco: {
+        descricao: string
+        dataConclusao: Date
+        valorEstimado: number
+      }[]
     }[]
   }
   entidadeexecutora: {
@@ -51,7 +54,9 @@ export default function AvaliarProjetos() {
 
       {loading ? (
         <p className="text-gray-600">Carregando projetos...</p>
-      ) : (
+            ) : projetos.length === 0 ? (
+        <p className="text-xl font-bold text-zinc-600 mb-6 text-center">Não há projetos a serem avaliados no momento.</p>
+            ) : (
         <ul className="space-y-6">
           {projetos.map(projeto => {
             const isOpen = projetoSelecionado?.codProjeto === projeto.codProjeto
@@ -86,7 +91,12 @@ export default function AvaliarProjetos() {
                   {projeto.tipo_projeto.marco_recomendado.map((marco, index) => (
                     <div key={index} className="text-sm mb-1">
                       <span className="font-medium">Marco {index + 1}:</span>{' '}
-                      {marco.descricao} - R$ {marco.valorEstimado}
+                      {marco.execucao_marco.map((execucao, idx) => (
+                        <span key={idx}>
+                          {execucao.descricao} - R$ {execucao.valorEstimado}
+                          {idx < marco.execucao_marco.length - 1 && ', '}
+                        </span>
+                      ))}
                     </div>
                   ))}
 
