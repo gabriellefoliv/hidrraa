@@ -21,13 +21,18 @@ export function AporteModal({bc_valor, onSubmit}: AporteModalProps) {
 
     const [modalPage, setModalPage] = useState<1 | 2 | "closed">("closed")
     const handleSubmit = () => {
-    if (modalPage === 2) {
-        onSubmit();
-        setModalPage("closed");
-    }
-    else {
-        setModalPage(2);
-    }}
+      if(!bc_valor) {
+          alert("O valor do aporte deve ser informado.")
+          return;
+      }
+      if (modalPage === 2) {
+          onSubmit();
+          setModalPage("closed");
+      }
+      else {
+          setModalPage(2);
+      }
+  }
 
   return (
     <Dialog open={modalPage !== "closed"}>

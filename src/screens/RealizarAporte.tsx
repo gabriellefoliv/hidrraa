@@ -42,6 +42,12 @@ export default function RealizarAportes() {
       return;
     }
 
+    if (bcValor === "") {
+      setErro("O valor do aporte deve ser informado.");
+      setCarregando(false);
+      return;
+    }
+
     try {
       const response = await api.post("/aportes", {
         codInvestidor: codInvestidor,

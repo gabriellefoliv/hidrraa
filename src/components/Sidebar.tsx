@@ -10,7 +10,8 @@ import {
   FileCheck,
   Waves,
   UserRoundPen,
-  Projector,
+  Save,
+  Download,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -36,8 +37,8 @@ export default function SidebarRoutes() {
         section: 'Projetos',
         routes: [
           { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
-          { name: 'Projetos Salvados', icon: Projector, href: '/projeto-salvados' },
-          { name: 'Projetos Submetidos', icon: Projector, href: '/projeto-submetidos' },
+          { name: 'Projetos Salvos', icon: Save, href: '/projetos-salvos' },
+          { name: 'Projetos Submetidos', icon: Download, href: '/projetos-submetidos' },
         ],
       },
       

@@ -7,6 +7,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import type { TipoProjeto } from '@/types/modelos';
+import type { ProjetoSalvo } from './ProjetosSalvos';
 
 interface Propriedade {
   codPropriedade: number
@@ -19,7 +20,11 @@ interface MicroBacia {
   Nome: string
 }
 
-export default function CriarProjeto() {
+interface CriarProjetoProps {
+  projetoInicial?: ProjetoSalvo
+}
+
+export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { codTipoProjeto } = useParams();
@@ -40,8 +45,32 @@ export default function CriarProjeto() {
 
   const [tipoProjeto, setTipoProjeto] = useState<TipoProjeto | null>(null)
 
-  // const [marcos, setMarcos] = useState<MarcoRecomendado[]>([])
-  // const [, setMarcosSugeridos] = useState<MarcoRecomendado[]>([]);
+  const [codProjeto, setCodProjeto] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (projetoInicial) {
+      setTitulo(projetoInicial.titulo);
+      setObjetivo(projetoInicial.objetivo);
+      setAcoes(projetoInicial.acoes);
+      setCronograma(projetoInicial.cronograma);
+      setOrcamento(projetoInicial.orcamento);
+      setCodPropriedade(projetoInicial.codPropriedade);
+      setCodMicroBacia(projetoInicial.CodMicroBacia);
+      setCodProjeto(projetoInicial.codProjeto);
+
+      // Inicializar datas e openCalendars com base nos marcos do projeto inicial
+      const novasDatas: (Date | undefined)[] = [];
+      const novosOpenCalendars: boolean[] = [];
+      
+      projetoInicial.tipo_projeto.execucao_marcos.forEach((marco) => {
+        novasDatas.push(marco.dataConclusao ? new Date(marco.dataConclusao) : undefined);
+        novosOpenCalendars.push(false);
+      });
+
+      setDatas(novasDatas);
+      setOpenCalendars(novosOpenCalendars);
+    }
+  }, [projetoInicial])
 
   useEffect(() => {
     // Buscar propriedades
@@ -85,63 +114,11 @@ export default function CriarProjeto() {
                       })
   }, [codTipoProjeto])
 
-  // const handleChangeProjeto = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   const { name, value } = e.target;
-  //   setTipoProjeto((prev) =>
-  //     prev ? { ...prev, [name]: value } : prev
-  //   );
-  // };
-
   const handleChangeMarco = (index: number, value: string) => {
     if (!tipoProjeto) return;
     const novosMarcos = [...tipoProjeto.marcosRecomendados];
     novosMarcos[index].descricao = value;
     setTipoProjeto({ ...tipoProjeto, marcosRecomendados: novosMarcos });
-  };
-
-  // const handleChangeEvidencia = (marcoIndex: number, evidenciaIndex: number, value: string) => {
-  //   if (!tipoProjeto) return;
-  //   const novosMarcos = [...tipoProjeto.marcosRecomendados];
-  //   novosMarcos[marcoIndex].evidenciasDemandadas[evidenciaIndex].descricao = value;
-  //   setTipoProjeto({ ...tipoProjeto, marcosRecomendados: novosMarcos });
-  // };
-
-
-//   useEffect(() => {
-//   if (codTipoProjeto && tiposProjeto.length > 0) {
-//     const tipoSelecionado = tiposProjeto.find(
-//       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//       (tipo: any) => tipo.codTipoProjeto === codTipoProjeto
-//     );
-
-//     if (tipoSelecionado) {
-//       setMarcosSugeridos(tipoSelecionado.marcosRecomendados || []);
-//       // Inicializar com os valores sugeridos para permitir edição
-//       setMarcos(
-//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//         (tipoSelecionado.marcosRecomendados || []).map((marco: any) => ({
-//           codMarcoRecomendado: marco.codMarcoRecomendado,
-//           descricao: marco.descricao,
-//           descrDetAjustes: "",
-//           valorEstimado: marco.valorEstimado,
-//           dataConclusao: "",
-//           evidenciasDemandadas: marco.evidenciasDemandadas || []
-//         }))
-//       );
-//     }
-//   }
-// }, [codTipoProjeto, tiposProjeto]);
-
-
-  const criarProjeto = async () => {
-    const projetoRes = await api.post("/projetos", {
-      titulo, objetivo, acoes, cronograma, orcamento,
-      codPropriedade, codTipoProjeto: Number(codTipoProjeto),
-      CodMicroBacia: codMicroBacia,
-      CodEntExec: codEntExec,
-    });
-
-    return projetoRes.data.codProjeto;
   };
 
   const handleSave = async () => {
@@ -169,8 +146,9 @@ export default function CriarProjeto() {
       })
       console.log('Response: ',response.data)
       alert(`Projeto criado com sucesso! ID: ${response.data.projetoId}`)
+      const projetoId = response.data.projetoId;
+      setCodProjeto(projetoId);
     } catch (err) {
-
       console.log("Erro ao criar projeto:", err);
       alert('Erro ao criar projeto')
     }
@@ -178,8 +156,11 @@ export default function CriarProjeto() {
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault()
+    if (!codProjeto) {
+      alert("Por favor, salve o projeto antes de submetê-lo.");
+      return;
+    }
     try {
-      const codProjeto = await criarProjeto();
       await api.put(`/projetos/submeter`, {
         codProjeto,
       });
@@ -210,7 +191,7 @@ export default function CriarProjeto() {
           <label className="block text-gray-700">Modelo Base</label>
           <input
             type="text"
-            value={tipoProjeto ? tipoProjeto.descricao ?? "" : ""}
+            value={tipoProjeto ? tipoProjeto.nome ?? "" : ""}
             readOnly
             className="w-full p-2 border rounded"
             disabled
@@ -295,7 +276,7 @@ export default function CriarProjeto() {
         {tipoProjeto && tipoProjeto.marcosRecomendados.map((marco, marcoIndex) => (
         <div 
           key={marco.codMarcoRecomendado}
-          className='w-full bg-white border border-slate-200 rounded-md p-2'
+          className='w-full bg-white border border-slate-200 rounded-md p-4'
         >
             <h3 className='mr-2 text-sky-800 font-bold'>Marco {marcoIndex + 1}</h3>
           <div className='flex flex-col w-full'>
@@ -306,7 +287,7 @@ export default function CriarProjeto() {
               onChange={(e) => handleChangeMarco(marcoIndex, e.target.value)}
             />
           </div>
-          <div className='flex w-full'>
+          <div className='flex w-full space-x-20'>
             <div className='flex flex-col'>
               <label className='font-bold'>Data Prevista</label>
               <Popover
@@ -370,22 +351,6 @@ export default function CriarProjeto() {
               />
             </div>
           </div>
-          {/* <ul>
-            {marco.evidenciasDemandadas.map((evidencia, evidenciaIndex) => (
-              <li key={evidencia.codEvidenciaDemandada}>
-                <label>Descrição da Evidência:</label>
-                <input
-                  type="text"
-                  value={evidencia.descricao}
-                  onChange={(e) =>
-                    handleChangeEvidencia(marcoIndex, evidenciaIndex, e.target.value)
-                  }
-                />
-                <br />
-                <small>Tipo do Arquivo: {evidencia.tipoArquivo}</small>
-              </li>
-            ))}
-          </ul> */}
         </div>
       ))}
         <div className='flex space-x-2 justify-end'>

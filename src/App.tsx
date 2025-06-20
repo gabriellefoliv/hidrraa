@@ -12,6 +12,9 @@ import AportesRealizados from './screens/AportesRealizados';
 import ValidarAporte from './screens/ValidarAporte';
 import AvaliarProjetos from './screens/AvaliarProjeto';
 import ProjetosAvaliados from './screens/ProjetosAvaliados';
+import ProjetosSalvos from './screens/ProjetosSalvos';
+import ProjetosSubmetidos from './screens/ProjetosSubmetidos';
+import EditarProjeto from './screens/EditarProjeto';
 
 function App() {
 
@@ -39,6 +42,26 @@ function App() {
               <CriarProjeto />
             </ProtectedRoute>
           }/>
+          <Route path='/projetos/editar/:codProjeto' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <EditarProjeto />
+            </ProtectedRoute>
+          }/>
+          <Route path='/projetos-salvos' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <ProjetosSalvos />
+            </ProtectedRoute>
+          }/>
+          <Route path='/projetos-submetidos' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <ProjetosSubmetidos />
+            </ProtectedRoute>
+          }/>
+
+          
           <Route path='/aportes' element={
             <ProtectedRoute>
               <SidebarRoutes/>
