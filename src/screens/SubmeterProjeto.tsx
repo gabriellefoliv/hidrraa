@@ -40,6 +40,8 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
   const [propriedades, setPropriedades] = useState<Propriedade[]>([]);
   const [microBacias, setMicroBacias] = useState<MicroBacia[]>([]);
 
+  const [marcoDescricoes, setMarcoDescricoes] = useState<{ [key: number]: string }>({});
+
   const [datas, setDatas] = useState<(Date | undefined)[]>([]);
   const [openCalendars, setOpenCalendars] = useState<boolean[]>([]);
 
@@ -114,22 +116,17 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
                       })
   }, [codTipoProjeto])
 
-  const handleChangeMarco = (index: number, value: string) => {
-    if (!tipoProjeto) return;
-    const novosMarcos = [...tipoProjeto.marcosRecomendados];
-    novosMarcos[index].descricao = value;
-    setTipoProjeto({ ...tipoProjeto, marcosRecomendados: novosMarcos });
-  };
-
   const handleSave = async () => {
     try {
       const marcos = tipoProjeto?.marcosRecomendados ?? [];
-      const marcosLimpos = marcos.map(marco => ({
+      const marcosLimpos = marcos.map((marco) => ({
         codMarcoRecomendado: marco.codMarcoRecomendado,
-        descricao: marco.descricao,
+        descricao: marcoDescricoes[marco.codMarcoRecomendado] || marco.descricao,
         valorEstimado: marco.valorEstimado || 0,
-        dataConclusao: datas[marco.codMarcoRecomendado] ? datas[marco.codMarcoRecomendado]?.toISOString() : null,
-      }))
+        dataConclusao: datas[marco.codMarcoRecomendado]
+          ? datas[marco.codMarcoRecomendado]?.toISOString()
+          : null,
+      }));
       console.log(marcosLimpos)
 
       const response = await api.post('/projetos', {
@@ -278,13 +275,21 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
           key={marco.codMarcoRecomendado}
           className='w-full bg-white border border-slate-200 rounded-md p-4'
         >
+          <div className='flex font-bold text-gray-700 items-center mb-2'>
             <h3 className='mr-2 text-sky-800 font-bold'>Marco {marcoIndex + 1}</h3>
+            <p>{marco.descricao}</p>
+          </div>
           <div className='flex flex-col w-full'>
             <label className='font-bold'>Descrição específica</label>
             <textarea
               className='w-full flex-1 border border-slate-200'
-              value={marco.descricao}
-              onChange={(e) => handleChangeMarco(marcoIndex, e.target.value)}
+              value={marcoDescricoes[marco.codMarcoRecomendado] || ""}
+              onChange={(e) => {
+                setMarcoDescricoes((prev) => ({
+                  ...prev,
+                  [marco.codMarcoRecomendado]: e.target.value,
+                }));
+              }}
             />
           </div>
           <div className='flex w-full space-x-20'>
