@@ -1,0 +1,160 @@
+import { BadgeDollarSign, CalendarDays, Landmark } from "lucide-react";
+
+export interface ProjetoCardProps {
+  projeto: {
+    codProjeto: number;
+    titulo: string;
+    objetivo: string;
+    acoes: string;
+    cronograma: string;
+    orcamento: number;
+    dataSubmissao?: string;
+    tipo_projeto: {
+      nome: string;
+      execucao_marcos: {
+        descricao: string;
+        valorEstimado: number;
+        dataConclusao: string;
+      }[];
+    };
+    entidadeExecutora?: {
+      nome: string;
+    };
+    microbacia?: {
+      Nome: string;
+    };
+    propriedade?: {
+        nome: string;
+    }
+  };
+  onClick?: () => void;
+  mostrarEntidade?: boolean;
+  mostrarNota?: boolean;
+  nota?: number;
+  isOpen?: boolean;
+  children?: React.ReactNode;
+}
+
+export function ProjetoCard({
+  projeto,
+  onClick,
+//   mostrarEntidade = false,
+//   mostrarNota = false,
+  isOpen = false,
+  children,
+  nota,
+}: ProjetoCardProps) {
+  return (
+    <div
+      onClick={onClick}
+      className="mb-4 group border border-slate-200 rounded-2xl p-6 bg-gradient-to-br from-sky-50 to-white shadow-md hover:shadow-lg transition cursor-pointer"
+    >
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-sky-900">{projeto.titulo}</h2>
+          <p className="text-sm text-sky-700 font-medium">
+            {projeto.tipo_projeto.nome}
+          </p>
+        </div>
+        {nota && (
+          <span className="bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full font-semibold">
+            ⭐ {nota.toFixed(1)}
+          </span>
+        )}
+        {projeto.dataSubmissao && (
+            <p className="text-xs text-slate-500">
+                Submetido em:{" "}
+                {new Date(projeto.dataSubmissao).toLocaleDateString("pt-BR")}
+            </p>
+        )}
+      </div>
+
+      {/* Informações principais */}
+      <div className="grid grid-cols-2 gap-4 my-4">
+        <div className="flex flex-col">
+          <span className="text-xs text-slate-500 mb-1">🎯 Objetivo</span>
+          <div className="bg-slate-50 border border-slate-200 rounded-md p-2 text-sm text-slate-700">
+            {projeto.objetivo}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-xs text-slate-500 mb-1">🛠️ Ações</span>
+          <div className="bg-slate-50 border border-slate-200 rounded-md p-2 text-sm text-slate-700">
+            {projeto.acoes}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-xs text-slate-500 mb-1">📅 Cronograma</span>
+          <div className="bg-slate-50 border border-slate-200 rounded-md p-2 text-sm text-slate-700">
+            {projeto.cronograma}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <BadgeDollarSign className="w-5 h-5 text-green-700" />
+          <p className="text-sm text-slate-700">
+            <span className="font-semibold">Orçamento:</span>{" "}
+            R$ {projeto.orcamento.toLocaleString("pt-BR")}
+          </p>
+        </div>
+      </div>
+
+      {/* Entidade */}
+      {projeto.entidadeExecutora && (
+        <div className="flex items-center gap-2 mb-2">
+          <Landmark className="w-4 h-4 text-sky-800" />
+          <p className="text-sm text-slate-600">
+            <span className="font-semibold">Entidade:</span>{" "}
+            {projeto.entidadeExecutora.nome}
+          </p>
+        </div>
+      )}
+
+      <hr className="border-slate-200 my-3" />
+
+      {/* Marcos */}
+      <div>
+        <p className="text-sm font-semibold text-sky-800 mb-2">📍 Marcos do Projeto:</p>
+        {projeto.tipo_projeto.execucao_marcos.length > 0 ? (
+          <div className="flex flex-col gap-3">
+            {projeto.tipo_projeto.execucao_marcos.map((marco, index) => (
+              <div
+                key={index}
+                className="bg-sky-50 border border-sky-100 rounded-lg p-4 hover:shadow-md transition"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sky-900 font-semibold">
+                    {marco.descricao}
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    <CalendarDays className="w-4 h-4 inline mr-1" />
+                    {new Date(marco.dataConclusao).toLocaleDateString("pt-BR")}
+                  </p>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">
+                  💰{" "}
+                  <span className="font-medium">
+                    R$ {marco.valorEstimado.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                    })}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">Nenhum marco definido.</p>
+        )}
+      </div>
+
+      {/* Área expansível */}
+      <div
+        className={`transition-all duration-500 overflow-hidden ${
+          isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
