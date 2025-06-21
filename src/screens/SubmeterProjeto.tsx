@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button';
 import type { TipoProjeto } from '@/types/modelos';
 import type { ProjetoSalvo } from './ProjetosSalvos';
+import { SubmeterProjetoModal } from '@/components/SubmeterProjetoModal';
 
 interface Propriedade {
   codPropriedade: number
@@ -47,7 +48,7 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
 
   const [tipoProjeto, setTipoProjeto] = useState<TipoProjeto | null>(null)
 
-  const [codProjeto, setCodProjeto] = useState<number | null>(null);
+  const [, setCodProjeto] = useState<number | null>(null);
 
   useEffect(() => {
     if (projetoInicial) {
@@ -116,63 +117,140 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
                       })
   }, [codTipoProjeto])
 
-  const handleSave = async () => {
-    try {
-      const marcos = tipoProjeto?.marcosRecomendados ?? [];
-      const marcosLimpos = marcos.map((marco) => ({
-        codMarcoRecomendado: marco.codMarcoRecomendado,
-        descricao: marcoDescricoes[marco.codMarcoRecomendado] || marco.descricao,
-        valorEstimado: marco.valorEstimado || 0,
-        dataConclusao: datas[marco.codMarcoRecomendado]
-          ? datas[marco.codMarcoRecomendado]?.toISOString()
-          : null,
-      }));
-      console.log(marcosLimpos)
-
-      const response = await api.post('/projetos', {
-        titulo,
-        objetivo,
-        acoes,
-        cronograma,
-        orcamento,
-        codPropriedade,
-        codTipoProjeto: Number(codTipoProjeto),
-        CodMicroBacia: codMicroBacia,
-        CodEntExec: codEntExec,
-        marcos: marcosLimpos,
-      })
-      console.log('Response: ',response.data)
-      alert(`Projeto criado com sucesso! ID: ${response.data.projetoId}`)
-      const projetoId = response.data.projetoId;
-      setCodProjeto(projetoId);
-    } catch (err) {
-      console.log("Erro ao criar projeto:", err);
-      alert('Erro ao criar projeto')
+  function validarSalvar() {
+    if (!codPropriedade || !codMicroBacia) {
+      alert('Selecione uma propriedade e uma microbacia para salvar.');
+      return false;
     }
+    return true;
   }
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    if (!codProjeto) {
-      alert("Por favor, salve o projeto antes de submetê-lo.");
-      return;
+  function validarSubmeter() {
+    if (
+      !titulo.trim() ||
+      !objetivo.trim() ||
+      !acoes.trim() ||
+      !cronograma.trim() ||
+      !orcamento ||
+      !codPropriedade ||
+      !codMicroBacia
+    ) {
+      alert('Preencha todos os campos do projeto antes de submeter.');
+      return false;
     }
-    try {
-      await api.put(`/projetos/submeter`, {
-        codProjeto,
-      });
-      alert("Projeto submetido com sucesso!");
-      navigate("/projeto");
-    } catch (err) {
-      console.error("Erro ao submeter projeto:", err);
-      alert("Erro ao submeter projeto.");
+
+    const marcos = tipoProjeto?.marcosRecomendados ?? [];
+
+    const temAlgumMarcoSemDescricao = marcos.some(
+      (marco) => !marcoDescricoes[marco.codMarcoRecomendado]?.trim()
+    );
+
+    const temAlgumaDataVazia = datas.some((d) => !d);
+
+    const temAlgumValorInvalido = marcos.some(
+      (marco) => !marco.valorEstimado || marco.valorEstimado <= 0
+    );
+
+    if (temAlgumMarcoSemDescricao) {
+      alert('Preencha todas as descrições específicas dos marcos.');
+      return false;
     }
-  };
+
+    if (temAlgumaDataVazia) {
+      alert('Preencha todas as datas previstas dos marcos.');
+      return false;
+    }
+
+    if (temAlgumValorInvalido) {
+      alert('Preencha todos os valores estimados dos marcos.');
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleSave = async () => {
+  if (!validarSalvar()) return;
+
+  try {
+    const marcos = tipoProjeto?.marcosRecomendados ?? [];
+    const marcosLimpos = marcos.map((marco) => ({
+      codMarcoRecomendado: marco.codMarcoRecomendado,
+      descricao: marcoDescricoes[marco.codMarcoRecomendado] || marco.descricao,
+      valorEstimado: marco.valorEstimado || 0,
+      dataConclusao: datas[marco.codMarcoRecomendado]
+        ? datas[marco.codMarcoRecomendado]?.toISOString()
+        : null,
+    }));
+
+    const response = await api.post('/projetos', {
+      titulo,
+      objetivo,
+      acoes,
+      cronograma,
+      orcamento,
+      codPropriedade,
+      codTipoProjeto: Number(codTipoProjeto),
+      CodMicroBacia: codMicroBacia,
+      CodEntExec: codEntExec,
+      marcos: marcosLimpos,
+    });
+
+    const projetoId = response.data.projetoId;
+    setCodProjeto(projetoId);
+    alert(`Projeto salvo com sucesso! ID: ${projetoId}`);
+  } catch (err) {
+    console.log('Erro ao salvar projeto:', err);
+    alert('Erro ao salvar projeto');
+  }
+};
+
+
+  const handleSubmit = async () => {
+  if (!validarSubmeter()) return;
+
+  try {
+    const marcos = tipoProjeto?.marcosRecomendados ?? [];
+    const marcosLimpos = marcos.map((marco) => ({
+      codMarcoRecomendado: marco.codMarcoRecomendado,
+      descricao: marcoDescricoes[marco.codMarcoRecomendado],
+      valorEstimado: marco.valorEstimado,
+      dataConclusao: datas[marco.codMarcoRecomendado]?.toISOString(),
+    }));
+
+    const response = await api.post('/projetos', {
+      titulo,
+      objetivo,
+      acoes,
+      cronograma,
+      orcamento,
+      codPropriedade,
+      codTipoProjeto: Number(codTipoProjeto),
+      CodMicroBacia: codMicroBacia,
+      CodEntExec: codEntExec,
+      marcos: marcosLimpos,
+    });
+
+    const projetoId = response.data.projetoId;
+    setCodProjeto(projetoId);
+
+    await api.put(`/projetos/submeter`, {
+      codProjeto: projetoId,
+    });
+
+    alert('Projeto submetido com sucesso!');
+    navigate('/projeto');
+  } catch (err) {
+    console.error('Erro ao submeter projeto:', err);
+    alert('Erro ao submeter projeto.');
+  }
+};
+
 
   return (
     <div className="w-full min-h-screen bg-blue-50 p-6">
       <h1 className="text-3xl font-bold text-center text-sky-800 mb-6">Formulário de Customização do Projeto</h1>
-      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={(e) => e.preventDefault()} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
         <div>
           <label className="block text-gray-700">Título do Projeto</label>
           <input
@@ -366,12 +444,7 @@ export default function CriarProjeto({projetoInicial}: CriarProjetoProps) {
           >
             Salvar
           </button>
-          <button
-            type="submit"
-            className=" bg-sky-800 text-white py-2 px-3 rounded hover:text-sky-800 hover:bg-white hover:border-sky-800 hover:border-2 hover:opacity-90 transition"
-          >
-            Submeter Projeto
-          </button>
+          <SubmeterProjetoModal onSubmit={() => handleSubmit()} />
         </div>
       </form>
     </div>
