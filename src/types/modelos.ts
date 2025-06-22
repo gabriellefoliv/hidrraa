@@ -12,6 +12,7 @@ export type MarcoRecomendado = {
 };
 
 export type TipoProjeto = {
+  codTipoProjeto: number;
   id: number;
   nome: string;
   descricao: string;
@@ -23,3 +24,32 @@ export type TipoProjeto = {
 //   nome: string;
 //   descricao: string;
 // };
+
+export interface ProjetoSalvo {
+  codProjeto: number
+  titulo: string
+  objetivo: string
+  acoes: string
+  cronograma: string
+  orcamento: number
+  codPropriedade: number
+  CodMicroBacia: number
+  tipo_projeto: {
+    codTipoProjeto: number
+    nome: string
+    descricao: string
+    execucao_marcos: {
+      codExecucaoMarco: number | undefined;
+      codMarcoRecomendado: number;
+      descricao: string
+      valorEstimado: number
+      dataConclusao: string
+    }[]
+  };
+    microbacia?: {
+        nome: string
+    }
+    propriedade?: {
+        nome: string
+    }
+}

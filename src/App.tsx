@@ -6,7 +6,7 @@ import Home from './screens/Home';
 import { ProtectedRoute } from './components/Auth/ProtectedRoute';
 import SidebarRoutes from './components/Sidebar';
 import ModelosProjeto from './screens/ModelosProjeto';
-import CriarProjeto from './screens/SubmeterProjeto';
+import CriarProjeto from './screens/CriarProjeto';
 import RealizarAporte from './screens/RealizarAporte';
 import AportesRealizados from './screens/AportesRealizados';
 import ValidarAporte from './screens/ValidarAporte';
