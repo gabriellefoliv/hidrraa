@@ -7,6 +7,7 @@ import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { toast } from "sonner";
 
 interface ProjetoSubmetido {
   codProjeto: number
@@ -56,7 +57,7 @@ export default function ProjetosSubmetidos() {
             setTiposProjeto(tipos as string[]);
         } catch (error) {
             console.error("Erro ao buscar projetos submetidos:", error);
-            alert("Erro ao carregar projetos submetidos");
+            toast.error("Erro ao carregar projetos submetidos");
         } finally {
             setLoading(false);
         }

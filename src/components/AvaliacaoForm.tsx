@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api, get } from '@/lib/api'
 import { useAuth } from '@/context/auth'
+import { toast } from 'sonner'
 
 interface Criterio {
   codCriterioAval: number
@@ -41,7 +42,7 @@ export default function FormularioAvaliacao({ projeto }: Props) {
           parecer: ''
         })))
       })
-      .catch(() => alert('Erro ao carregar critérios'))
+      .catch(() => toast.error('Erro ao carregar critérios'))
   }, [])
 
   function handleItemChange(index: number, field: keyof ItemAvaliacao, value: string | number) {
@@ -61,7 +62,7 @@ export default function FormularioAvaliacao({ projeto }: Props) {
     e.preventDefault()
     try {
       if (!user) {
-        alert('Usuário não autenticado.');
+        toast.error('Usuário não autenticado.')
         return;
       }
       const response = await api.post('/avaliacoes', {
@@ -74,12 +75,12 @@ export default function FormularioAvaliacao({ projeto }: Props) {
       })
       console.log('Body recebido:', response.data)
 
-      alert(`Avaliação enviada com sucesso! Média: ${response.data.mediaPonderada}`)
+      toast.success(`Avaliação enviada com sucesso! Média: ${response.data.mediaPonderada}`)
       window.location.reload() // Recarrega a página para atualizar a lista de avaliações
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err.response?.data || err)
-      alert('Erro ao enviar avaliação.')
+      toast.error('Erro ao enviar avaliação.')
     }
 
   }

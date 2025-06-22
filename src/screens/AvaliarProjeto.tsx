@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import type { DateRange } from 'react-day-picker';
+import { toast } from 'sonner';
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 // import { Button } from '@/components/ui/button'
 // import { Calendar } from '@/components/ui/calendar'
@@ -80,7 +81,7 @@ export default function AvaliarProjetos() {
           ];
           setEntidades(entidadesExec.filter(Boolean) as string[]);
         })
-        .catch(() => alert('Erro ao carregar projetos avaliados'))
+        .catch(() => toast.error('Erro ao carregar projetos avaliados'))
         .finally(() => setLoading(false));
     }, []);
 

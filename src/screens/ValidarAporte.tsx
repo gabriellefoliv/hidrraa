@@ -10,6 +10,7 @@ import { Calendar } from '@/components/ui/calendar'
 import type { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { toast } from 'sonner'
 
 interface Aporte {
   codAporte: number
@@ -54,7 +55,7 @@ export default function ValidarAportes() {
      
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      alert('Erro ao validar aporte.')
+      toast.error('Erro ao validar aporte.')
     }
   }
 

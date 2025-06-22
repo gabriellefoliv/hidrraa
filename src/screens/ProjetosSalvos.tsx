@@ -2,6 +2,7 @@ import { ProjetoCard } from "@/components/Projeto/ProjetoCard";
 import { api } from "@/lib/api"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export interface ProjetoSalvo {
   codProjeto: number
@@ -42,7 +43,7 @@ export default function ProjetosSalvos() {
             setProjetos(response.data)
             } catch (error) {
                 console.error('Erro ao buscar projetos submetidos:', error)
-                alert('Erro ao carregar projetos submetidos')
+                toast.error('Erro ao carregar projetos submetidos')
             } finally {
             setLoading(false)
             }

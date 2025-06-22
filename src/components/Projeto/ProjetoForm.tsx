@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button'
 import { SubmeterProjetoModal } from '@/components/SubmeterProjetoModal'
 import type { TipoProjeto, ProjetoSalvo } from '@/types/modelos'
+import { toast } from 'sonner'
 
 interface Propriedade {
   codPropriedade: number
@@ -107,11 +108,11 @@ export function ProjetoForm({
 
   function validarParaSubmeter() {
     if (!codPropriedade || !codMicroBacia) {
-      alert('Selecione uma propriedade e uma microbacia.')
+      toast.error('Selecione uma propriedade e uma microbacia.')
       return false
     }
     if (!titulo.trim() || !objetivo.trim() || !acoes.trim() || !cronograma.trim() || orcamento <= 0) {
-      alert('Preencha todos os campos principais.')
+      toast.error('Preencha todos os campos principais.')
       return false
     }
     const temErro = tipoProjeto.marcosRecomendados.some((m) => {
@@ -124,7 +125,7 @@ export function ProjetoForm({
       )
     })
     if (temErro) {
-      alert('Preencha todos os dados dos marcos.')
+      toast.error('Preencha todos os dados dos marcos.')
       return false
     }
     return true

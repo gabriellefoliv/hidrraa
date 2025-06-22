@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { useState } from "react"
+import { toast } from "sonner"
 
 interface AporteModalProps {
     bc_valor: string
@@ -22,7 +23,7 @@ export function AporteModal({bc_valor, onSubmit}: AporteModalProps) {
     const [modalPage, setModalPage] = useState<1 | 2 | "closed">("closed")
     const handleSubmit = () => {
       if(!bc_valor) {
-          alert("O valor do aporte deve ser informado.")
+          toast.error("O valor do aporte deve ser informado.")
           return;
       }
       if (modalPage === 2) {

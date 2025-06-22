@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import type { DateRange } from 'react-day-picker';
+import { toast } from 'sonner';
 
 interface ProjetoAvaliado {
   codProjeto: number;
@@ -76,7 +77,7 @@ export default function ProjetosAvaliados() {
         ];
         setEntidades(entidadesExec.filter(Boolean) as string[]);
       })
-      .catch(() => alert('Erro ao carregar projetos avaliados'))
+      .catch(() => toast.error('Erro ao carregar projetos avaliados'))
       .finally(() => setLoading(false));
   }, []);
 

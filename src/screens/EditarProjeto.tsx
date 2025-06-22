@@ -4,6 +4,7 @@ import { ProjetoForm, type ProjetoPayload } from '@/components/Projeto/ProjetoFo
 import { api, get } from '@/lib/api'
 import { useAuth } from '@/context/auth'
 import type { TipoProjeto, ProjetoSalvo } from '@/types/modelos'
+import { toast } from 'sonner'
 
 export default function EditarProjeto() {
   const { codProjeto } = useParams()
@@ -30,7 +31,8 @@ export default function EditarProjeto() {
 
       const codTipoProjeto = projetoRes.data.tipo_projeto?.codTipoProjeto
       if (!codTipoProjeto) {
-        alert('Tipo de projeto não encontrado')
+        toast.error('Tipo de projeto não encontrado')
+        
         return
       }
       const tipo = await api.get(`/tipos-projeto/${codTipoProjeto}`)
@@ -47,14 +49,15 @@ export default function EditarProjeto() {
 
   const handleSave = async (data: ProjetoPayload) => {
     await api.put(`/projetos/${codProjeto}`, data)
-    alert('Projeto atualizado com sucesso!')
+    toast.success(`Projeto atualizado com sucesso! ID: ${codProjeto}`)
+    navigate(`/projetos-salvos`)
   }
 
   const handleSubmit = async (data: ProjetoPayload) => {
     await api.put(`/projetos/${codProjeto}`, data)
 
     await api.put(`/projetos/submeter`, { codProjeto: Number(codProjeto) })
-    alert('Projeto submetido com sucesso!')
+    toast.success('Projeto submetido com sucesso!')
     navigate('/projeto')
   }
 
