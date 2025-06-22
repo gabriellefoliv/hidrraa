@@ -17,6 +17,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar, AvatarFallback } from './ui/avatar'
 import { useContext } from 'react'
+import Logo from '@/assets/hidra-logo.png'
 
 export default function SidebarRoutes() {
   const { user } = useAuth()
@@ -81,7 +82,8 @@ export default function SidebarRoutes() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="bg-white motion-preset-slide-right-lg flex items-center relative px-4 h-20">
-        <h2 className='m-2 p-4 text-sky-800 font-bold text-4xl'>Hidrraa</h2>
+        {/* <h2 className='m-2 p-4 text-sky-800 font-bold text-4xl'>Hidra</h2> */}
+        <img className='m-2 p-4' src={Logo} width={200}/>
       </SidebarHeader>
 
       <SidebarContent className="bg-white motion-preset-slide-right-lg">

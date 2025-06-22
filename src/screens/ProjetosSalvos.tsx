@@ -23,7 +23,7 @@ export interface ProjetoSalvo {
     }[]
   };
     microbacia?: {
-        Nome: string
+        nome: string
     }
     propriedade?: {
         nome: string

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarIcon } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import type { DateRange } from 'react-day-picker'
-import { addDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 interface Aporte {
@@ -31,10 +31,7 @@ export default function ValidarAportes() {
   const [modalAporte, setModalAporte] = useState<Aporte | null>(null)
   const [investidorSelecionado, setInvestidorSelecionado] = useState<string | null>(null)
 
-  const [date, setDate] = React.useState<DateRange | undefined>({
-      from: new Date(2025, 0, 1),
-      to: addDays(new Date(2025, 5, 1), 20),
-    })
+  const [date, setDate] = React.useState<DateRange | undefined>()
 
   const fetchAportes = async () => {
     setLoading(true)
@@ -150,7 +147,7 @@ export default function ValidarAportes() {
                   <button
                     onClick={() => setInvestidorSelecionado(null)}
                     className={`text-left px-4 py-2 rounded hover:bg-gray-100 ${
-                      !investidorSelecionado ? 'font-bold text-blue-600' : ''
+                      !investidorSelecionado ? 'font-bold text-sky-800' : ''
                     }`}
                   >
                     Todos os investidores
@@ -160,7 +157,7 @@ export default function ValidarAportes() {
                       key={nome}
                       onClick={() => setInvestidorSelecionado(nome)}
                       className={`text-left px-4 py-2 rounded hover:bg-gray-100 ${
-                        investidorSelecionado === nome ? 'font-bold text-blue-600' : ''
+                        investidorSelecionado === nome ? 'font-bold text-sky-800' : ''
                       }`}
                     >
                       {nome}
@@ -204,7 +201,7 @@ export default function ValidarAportes() {
                 {!aporte.validadoAGEVAP && (
                   <button
                     onClick={() => setModalAporte(aporte)}
-                    className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 text-sm bg-sky-800 text-white rounded-lg hover:bg-sky-800/75"
                   >
                     Validar
                   </button>

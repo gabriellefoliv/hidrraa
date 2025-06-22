@@ -28,6 +28,10 @@ interface ProjetoSubmetido {
       dataConclusao: string
     }[]
   }
+    microbacia?: {
+        nome: string
+    }
+    
 }
 
 export default function ProjetosSubmetidos() {

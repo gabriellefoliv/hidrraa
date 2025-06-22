@@ -53,7 +53,7 @@ export default function ModelosProjeto() {
                         <div className="flex flex-col p-4">
                             <div className="flex">
                                 <Info className="text-sky-800/90"/>
-                                <p className="ml-2 font-bold text-sky-600/90">Descrição</p>
+                                <p className="ml-2 font-bold text-sky-800">Descrição</p>
                             </div> 
                             <p className="text-gray-700 mb-2">{tp.descricao}</p>
                         </div>

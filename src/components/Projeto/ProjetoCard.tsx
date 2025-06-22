@@ -1,4 +1,4 @@
-import { BadgeDollarSign, CalendarDays, Landmark } from "lucide-react";
+import { BadgeDollarSign, CalendarDays } from "lucide-react";
 
 export interface ProjetoCardProps {
   projeto: {
@@ -17,11 +17,11 @@ export interface ProjetoCardProps {
         dataConclusao: string;
       }[];
     };
-    entidadeExecutora?: {
+    entidadeexecutora?: {
       nome: string;
     };
     microbacia?: {
-      Nome: string;
+      nome: string;
     };
     propriedade?: {
         nome: string;
@@ -99,22 +99,11 @@ export function ProjetoCard({
         </div>
       </div>
 
-      {/* Entidade */}
-      {projeto.entidadeExecutora && (
-        <div className="flex items-center gap-2 mb-2">
-          <Landmark className="w-4 h-4 text-sky-800" />
-          <p className="text-sm text-slate-600">
-            <span className="font-semibold">Entidade:</span>{" "}
-            {projeto.entidadeExecutora.nome}
-          </p>
-        </div>
-      )}
-
       <hr className="border-slate-200 my-3" />
 
       {/* Marcos */}
       <div>
-        <p className="text-sm font-semibold text-sky-800 mb-2">📍 Marcos do Projeto:</p>
+        <p className="text-sm font-semibold text-sky-800 mb-2">Marcos do Projeto:</p>
         {projeto.tipo_projeto.execucao_marcos.length > 0 ? (
           <div className="flex flex-col gap-3">
             {projeto.tipo_projeto.execucao_marcos.map((marco, index) => (
@@ -132,7 +121,7 @@ export function ProjetoCard({
                   </p>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
-                  💰{" "}
+                  {" "}
                   <span className="font-medium">
                     R$ {marco.valorEstimado.toLocaleString("pt-BR", {
                       minimumFractionDigits: 2,
@@ -144,6 +133,21 @@ export function ProjetoCard({
           </div>
         ) : (
           <p className="text-sm text-slate-500">Nenhum marco definido.</p>
+        )}
+      </div>
+      
+      <div className="flex gap-2 items-center">
+        {projeto.microbacia && (
+          <span className="mt-4 inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
+            {projeto.microbacia.nome}
+          </span>
+        )}
+
+        {/* Entidade */}
+        {projeto.entidadeexecutora && (
+            <p className="mt-4 inline-block bg-red-100 text-red-400 text-xs font-medium px-2 py-1 rounded-full">
+              {projeto.entidadeexecutora.nome}
+            </p>
         )}
       </div>
 
