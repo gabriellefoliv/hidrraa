@@ -28,6 +28,8 @@ export interface ProjetoCardProps {
     }
   };
   onClick?: () => void;
+  onDelete?: (codProjeto: number) => void;
+  showDelete?: boolean;
   mostrarEntidade?: boolean;
   mostrarNota?: boolean;
   nota?: number;
@@ -43,6 +45,8 @@ export function ProjetoCard({
   isOpen = false,
   children,
   nota,
+  onDelete,
+  showDelete = false,
 }: ProjetoCardProps) {
   return (
     <div
@@ -136,7 +140,7 @@ export function ProjetoCard({
         )}
       </div>
       
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center justify-between">
         {projeto.microbacia && (
           <span className="mt-4 inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
             {projeto.microbacia.nome}
@@ -149,7 +153,16 @@ export function ProjetoCard({
               {projeto.entidadeexecutora.nome}
             </p>
         )}
-      </div>
+
+      {showDelete && (
+        <button
+        className="mt-4 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+        onClick={() => onDelete?.(projeto.codProjeto)}
+        >
+            Excluir
+          </button>
+        )}
+        </div>
 
       {/* Área expansível */}
       <div

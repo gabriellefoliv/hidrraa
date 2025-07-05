@@ -37,6 +37,19 @@ export default function ProjetosSalvos() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const handleDelete = async (codProjeto: number) => {
+        if (!confirm('Deseja realmente excluir este projeto?')) return
+
+        try {
+        await api.delete(`/projetos/${codProjeto}`)
+        toast.success('Projeto excluído com sucesso!')
+        setProjetos((prev) => prev.filter((p) => p.codProjeto !== codProjeto))
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+        toast.error('Erro ao excluir projeto')
+        }
+    }
+
     const fetchProjetosSalvos = async () => {
         try {
             const response = await api.get('/projetos/salvos')
@@ -51,6 +64,7 @@ export default function ProjetosSalvos() {
     useEffect(() => {
         fetchProjetosSalvos();
     }, [])
+    
     return (
         <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
             <h1 className="text-2xl font-bold mb-6 text-center mt-4">Projetos Salvos</h1>
@@ -58,13 +72,15 @@ export default function ProjetosSalvos() {
             {loading ? (
                 <p className="text-center">Carregando...</p>
             ) : projetos.length === 0 ? (
-                <p className="text-center text-gray-500">Nenhum projeto submetido.</p>
+                <p className="mt-4 text-center text-gray-500">Nenhum projeto salvo.</p>
             ) : (
                 <div className="w-full flex flex-col p-4">
                     {projetos.map((projeto) => (
                         <ProjetoCard
                             projeto={projeto}
                             onClick={() => navigate(`/projetos/editar/${projeto.codProjeto}`)}
+                            showDelete
+                            onDelete={handleDelete}
                         />
                     ))}
                 </div>

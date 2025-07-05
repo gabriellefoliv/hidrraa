@@ -32,17 +32,32 @@ export default function CriarProjeto() {
   }, [codTipoProjeto, user])
 
   const handleSave = async (data: ProjetoPayload) => {
-    const response = await api.post('/projetos', data)
-    toast.success(`Projeto salvo com sucesso! ID: ${response.data.projetoId}`)
+    try {
+      const response = await api.post('/projetos', data)
+      console.log('[SALVAR] Resposta da API: ', response.data)
+      toast.success(`Projeto salvo com sucesso! ID: ${response.data.projetoId}`)
+      navigate(`/projetos-salvos`)
+      
+    } catch (error) {
+      console.error('[SALVAR] Erro ao salvar projeto:', error)
+      toast.error('Erro ao salvar projeto. Tente novamente.')  
+    }
   }
 
   const handleSubmit = async (data: ProjetoPayload) => {
-    const response = await api.post('/projetos', data)
-    const codProjeto = response.data.projetoId
-
-    await api.put(`/projetos/submeter`, { codProjeto })
-    toast.success('Projeto submetido com sucesso!')
-    navigate('/projetos-submetidos')
+    console.log('[SUBMETER] Dados do projeto:', data)
+    try {
+      const response = await api.post('/projetos', data)
+      const codProjeto = response.data.projetoId
+  
+      await api.put(`/projetos/submeter`, { codProjeto })
+      toast.success('Projeto submetido com sucesso!')
+      navigate('/projetos-submetidos')
+      
+    } catch (error) {
+      console.error('[SUBMETER] Erro ao submeter projeto:', error)
+      toast.error('Erro ao submeter projeto. Verifique os dados e tente novamente.')  
+    }
   }
 
   if (!tipoProjeto || !codEntExec) return <p>Carregando...</p>

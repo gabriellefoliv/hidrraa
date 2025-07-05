@@ -14,7 +14,7 @@ import {
   Download,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar, AvatarFallback } from './ui/avatar'
 import { useContext } from 'react'
 import Logo from '@/assets/hidra-logo.png'
@@ -112,10 +112,10 @@ export default function SidebarRoutes() {
 
       <SidebarFooter className="bg-white">
         <SidebarMenu className="motion-preset-slide-right-lg">
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+          <SidebarMenuItem className='flex w-full'>
+            {/* <DropdownMenu> */}
+              {/* <DropdownMenuTrigger asChild> */}
+                <SidebarMenuButton className=''>
                   <Avatar className="bg-sky-300 text-white size-8">
                     <AvatarFallback className='bg-cyan-800 text-white'>
                       {user?.nome
@@ -130,10 +130,17 @@ export default function SidebarRoutes() {
                   {user?.nome}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
+                        <SidebarMenuButton 
+                  className='flex-1 hover:bg-red-600/75 transition duration-500 opacity-500 hover:text-white' 
+                  onClick={() => logout()}
+                >
+                  <span>Sair</span>
+                </SidebarMenuButton>
+              {/* </DropdownMenuTrigger> */}
+              {/* <DropdownMenuContent
                 side="top"
-                className="w-[--radix-popper-anchor-width]"
+                sideOffset={8}
+                className="w-[--radix-popper-anchor-width] z-50"
               >
                 <DropdownMenuItem>
                   <span>Perfil pessoal</span>
@@ -145,7 +152,7 @@ export default function SidebarRoutes() {
                   <span>Sair</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

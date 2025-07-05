@@ -137,7 +137,7 @@ export function ProjetoForm({
   }
 
   function montarPayload(): ProjetoPayload {
-    return {
+    const payload = {
       titulo,
       objetivo,
       acoes,
@@ -155,11 +155,15 @@ export function ProjetoForm({
           valorEstimado: marco.valorEstimado ?? 0,
           dataConclusao: marco.dataConclusao
             ? marco.dataConclusao.toISOString()
-            : '',
+            : null,
         }
       }),
     }
+
+    console.log('[PAYLOAD] Montado:', payload)
+    return payload
   }
+
 
   return (
     <div className="w-full min-h-screen bg-blue-50 p-6">
