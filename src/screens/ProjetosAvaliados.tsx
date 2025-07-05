@@ -20,6 +20,7 @@ interface ProjetoAvaliado {
   codPropriedade: number;
   CodMicroBacia: number;
   mediaPonderada: number | null;
+  nomesAvaliadores: string[];
   dataSubmissao: string;
   tipo_projeto: {
     codTipoProjeto: number;

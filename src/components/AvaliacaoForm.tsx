@@ -86,7 +86,7 @@ export default function FormularioAvaliacao({ projeto }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-8 mt-10 space-y-6">
+    <form onClick={e => e.stopPropagation()} onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-8 mt-10 space-y-6">
       <h2 className="text-2xl font-bold text-gray-800">Avaliar Projeto: {projeto.titulo}</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

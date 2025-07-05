@@ -20,16 +20,21 @@ export interface ProjetoCardProps {
     entidadeexecutora?: {
       nome: string;
     };
+    avaliacao?: {
+      bc_aprovado: boolean;
+    };
     microbacia?: {
       nome: string;
     };
     propriedade?: {
         nome: string;
-    }
+    };
+    nomesAvaliadores?: string[];
   };
   onClick?: () => void;
   onDelete?: (codProjeto: number) => void;
   showDelete?: boolean;
+  mostrarStatusAvaliacao?: boolean;
   mostrarEntidade?: boolean;
   mostrarNota?: boolean;
   nota?: number;
@@ -47,6 +52,7 @@ export function ProjetoCard({
   nota,
   onDelete,
   showDelete = false,
+  mostrarStatusAvaliacao
 }: ProjetoCardProps) {
   return (
     <div
@@ -154,15 +160,48 @@ export function ProjetoCard({
             </p>
         )}
 
-      {showDelete && (
-        <button
-        className="mt-4 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-        onClick={() => onDelete?.(projeto.codProjeto)}
-        >
-            Excluir
+        {showDelete && (
+          <button
+          className="mt-4 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+          onClick={() => onDelete?.(projeto.codProjeto)}
+          >
+              Excluir
           </button>
         )}
-        </div>
+
+        {mostrarStatusAvaliacao && (
+          <>
+            {typeof projeto.avaliacao?.bc_aprovado === 'boolean' && (
+                <span
+                  className={`mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full ${
+                    projeto.avaliacao.bc_aprovado
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}
+                >
+                  {projeto.avaliacao.bc_aprovado ? 'Aprovado' : 'Reprovado'}
+                </span>
+              )}
+    
+            {!projeto.avaliacao?.bc_aprovado && (
+                <span className="mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full bg-orange-100 text-orange-600">
+                  Avaliação Pendente
+                </span>
+              )
+            }
+          </>
+        )}
+
+
+        {projeto.nomesAvaliadores && projeto.nomesAvaliadores.length > 0 && (
+          <p className="text-xs text-slate-600 mt-1">
+            Avaliado por:{" "}
+            <span className="font-medium">
+              {projeto.nomesAvaliadores.join(', ')}
+            </span>
+          </p>
+        )}
+      </div>
 
       {/* Área expansível */}
       <div

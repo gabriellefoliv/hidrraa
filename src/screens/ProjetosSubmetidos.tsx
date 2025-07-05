@@ -29,6 +29,9 @@ interface ProjetoSubmetido {
       dataConclusao: string
     }[]
   }
+  avaliacao: {
+    bc_aprovado: boolean
+  }
     microbacia?: {
         nome: string
     }
@@ -178,6 +181,7 @@ export default function ProjetosSubmetidos() {
                 {projetosFiltrados.map((projeto) => (
                     <ProjetoCard
                         projeto={projeto}
+                        mostrarStatusAvaliacao={true}
                     />
                 ))}
                 </div>
