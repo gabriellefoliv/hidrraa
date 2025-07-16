@@ -291,7 +291,7 @@ export function ProjetoForm({
 
             <div className="flex gap-4">
               <div>
-                <label>Data de conslusão prevista</label>
+                <label>Data de conclusão prevista</label>
                 <Popover
                   open={openCalendars[index]}
                   onOpenChange={(isOpen) => {

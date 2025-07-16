@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
 import { api } from "@/lib/api"
 import { toast } from "sonner"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Trash2 } from "lucide-react"
 
 interface Evidencia {
   codEvidenciaApresentada: number
   caminhoArquivo: string
   dataUpload: string
   codEvidenciaDemandada: number
+  execucao_marco: {
+    dataConclusaoEfetiva: string | null
+  }
 }
 
 interface ListaEvidenciasProps {
@@ -33,6 +36,16 @@ export function ListaEvidencias({
       toast.error("Erro ao carregar evidências")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDelete = async (codEvidencia: number) => {
+    try {
+      await api.delete(`/evidencias/${codEvidencia}`)
+      toast.success("Evidência excluída com sucesso!")
+      fetchEvidencias()
+    } catch {
+      toast.error("Erro ao excluir evidência")
     }
   }
 
@@ -69,6 +82,7 @@ export function ListaEvidencias({
               {evidencias.map((ev) => {
                 const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                 const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
+                const isConfirmado = !!ev.execucao_marco?.dataConclusaoEfetiva
 
                 return (
                   <li
@@ -91,10 +105,21 @@ export function ListaEvidencias({
                         Documento enviado
                       </a>
                     )}
-                    <span className="text-xs text-gray-500">
-                      Enviado em{" "}
-                      {new Date(ev.dataUpload).toLocaleDateString("pt-BR")}
-                    </span>
+
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs text-gray-500">
+                        Enviado em {new Date(ev.dataUpload).toLocaleDateString("pt-BR")}
+                      </span>
+
+                      {!isConfirmado && (
+                        <button
+                          onClick={() => handleDelete(ev.codEvidenciaApresentada)}
+                          className="text-xs text-red-600 hover:text-red-800 flex items-center gap-1"
+                        >
+                          <Trash2 className="w-4 h-4" /> Excluir
+                        </button>
+                      )}
+                    </div>
                   </li>
                 )
               })}

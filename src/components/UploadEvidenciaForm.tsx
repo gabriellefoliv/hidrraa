@@ -2,14 +2,16 @@ import { api } from "@/lib/api"
 import { UploadCloud } from "lucide-react"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
+import { SubmeterEvidenciasModal } from "./SubmeterEvidenciasModal"
 
 interface UploadEvidenciaFormProps {
     codProjeto: number
     codExecucaoMarco: number
     onUploadSuccess?: () => void
+    bloqueado?: boolean
 }
 
-export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSuccess }: UploadEvidenciaFormProps) {
+export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSuccess, bloqueado }: UploadEvidenciaFormProps) {
   const [file, setFile] = useState<File | null>(null)
   const [tipo, setTipo] = useState<'fotos' | 'documentos'>('fotos')
   const [dragOver, setDragOver] = useState(false)
@@ -17,7 +19,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (e:any) => {
+  const handleSave = async (e:any) => {
     e.preventDefault()
     console.log({ codProjeto, codExecucaoMarco, tipo, file })
 
@@ -47,7 +49,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
       setFile(null)
       onUploadSuccess?.()
     } catch {
-      toast.error('Erro ao enviar evidência')
+      toast.error('Erro ao enviar evidência. Verifique se o envio já não foi confirmado.')
     }
   }
 
@@ -64,8 +66,29 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
     }
   }
 
+  const handleSubmit = async () => {
+      try {    
+        await api.put(`/evidencias/submeter`, { codExecucaoMarco })
+        toast.success('Evidências submetidas com sucesso!')
+        onUploadSuccess?.()
+        window.location.reload()
+        
+      } catch (error) {
+        console.error('[SUBMETER] Erro ao submeter projeto:', error)
+        toast.error('Erro ao submeter projeto. Verifique os dados e tente novamente.')  
+      }
+  }
+
+    if (bloqueado) {
+      return (
+        <p className="text-sm text-gray-500 italic mt-2">
+          Esse marco já foi concluído. O envio de evidências está desabilitado.
+        </p>
+      )
+    }
+
   return (
-    <form onSubmit={handleSubmit} className="mt-2 space-y-2">
+    <form onSubmit={handleSave} className="mt-2 space-y-2">
       <select value={tipo} onChange={e => setTipo(e.target.value as 'fotos' | 'documentos')} className="border rounded px-2 py-1">
         <option value="fotos">Fotos</option>
         <option value="documentos">Documentos</option>
@@ -110,6 +133,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
       >
         Enviar Evidência
       </button>
+      <SubmeterEvidenciasModal onSubmit={handleSubmit} />
     </form>
   )
 }
