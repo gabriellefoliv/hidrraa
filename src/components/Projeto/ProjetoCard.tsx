@@ -1,4 +1,5 @@
 import { BadgeDollarSign, CalendarDays } from "lucide-react";
+import { Button } from "../ui/button";
 
 export interface ProjetoCardProps {
   projeto: {
@@ -35,6 +36,7 @@ export interface ProjetoCardProps {
   onDelete?: (codProjeto: number) => void;
   showDelete?: boolean;
   mostrarStatusAvaliacao?: boolean;
+  onExecutar?: () => void;
   mostrarEntidade?: boolean;
   mostrarNota?: boolean;
   nota?: number;
@@ -52,6 +54,7 @@ export function ProjetoCard({
   nota,
   onDelete,
   showDelete = false,
+  onExecutar,
   mostrarStatusAvaliacao
 }: ProjetoCardProps) {
   return (
@@ -171,24 +174,21 @@ export function ProjetoCard({
 
         {mostrarStatusAvaliacao && (
           <>
-            {typeof projeto.avaliacao?.bc_aprovado === 'boolean' && (
-                <span
-                  className={`mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full ${
-                    projeto.avaliacao.bc_aprovado
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}
-                >
-                  {projeto.avaliacao.bc_aprovado ? 'Aprovado' : 'Reprovado'}
-                </span>
-              )}
-    
-            {!projeto.avaliacao?.bc_aprovado && (
-                <span className="mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full bg-orange-100 text-orange-600">
-                  Avaliação Pendente
-                </span>
-              )
-            }
+            {typeof projeto.avaliacao?.bc_aprovado === 'boolean' ? (
+              <span
+          className={`mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full ${
+            projeto.avaliacao.bc_aprovado
+              ? 'bg-green-100 text-green-800'
+              : 'bg-red-100 text-red-800'
+          }`}
+              >
+          {projeto.avaliacao.bc_aprovado ? 'Aprovado' : 'Reprovado'}
+              </span>
+            ) : (
+              <span className="mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full bg-orange-100 text-orange-600">
+                Avaliação Pendente
+              </span>
+            )}
           </>
         )}
 
@@ -202,6 +202,18 @@ export function ProjetoCard({
           </p>
         )}
       </div>
+
+      {onExecutar && (
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onExecutar();
+          }}
+          className="w-full flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
+        >
+          Executar Marco
+        </Button>
+      )}
 
       {/* Área expansível */}
       <div

@@ -12,6 +12,7 @@ import {
   UserRoundPen,
   Save,
   Download,
+  FileCog,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -40,6 +41,7 @@ export default function SidebarRoutes() {
           { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
           { name: 'Projetos Salvos', icon: Save, href: '/projetos-salvos' },
           { name: 'Projetos Submetidos', icon: Download, href: '/projetos-submetidos' },
+          { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-aprovados' },
         ],
       },
       
