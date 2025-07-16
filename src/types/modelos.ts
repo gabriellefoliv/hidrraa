@@ -43,7 +43,7 @@ export interface ProjetoSalvo {
       codMarcoRecomendado: number;
       descricao: string
       valorEstimado: number
-      dataConclusao: string
+      dataConclusaoPrevista: string
     }[]
   };
     microbacia?: {

@@ -27,7 +27,7 @@ interface ProjetoAprovado {
     execucao_marcos: {
       descricao: string
       valorEstimado: number
-      dataConclusao: string
+      dataConclusaoPrevista: string
     }[]
   }
   avaliacao: {

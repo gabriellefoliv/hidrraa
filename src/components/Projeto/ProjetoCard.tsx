@@ -15,7 +15,7 @@ export interface ProjetoCardProps {
       execucao_marcos: {
         descricao: string;
         valorEstimado: number;
-        dataConclusao: string;
+        dataConclusaoPrevista: string;
       }[];
     };
     entidadeexecutora?: {
@@ -130,7 +130,7 @@ export function ProjetoCard({
                   </h4>
                   <p className="text-xs text-slate-500">
                     <CalendarDays className="w-4 h-4 inline mr-1" />
-                    {new Date(marco.dataConclusao).toLocaleDateString("pt-BR")}
+                    {new Date(marco.dataConclusaoPrevista).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
@@ -209,7 +209,7 @@ export function ProjetoCard({
             e.stopPropagation();
             onExecutar();
           }}
-          className="w-full flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
+          className="flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
         >
           Executar Marco
         </Button>

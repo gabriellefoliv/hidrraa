@@ -31,7 +31,7 @@ export interface ProjetoPayload {
     codMarcoRecomendado: number
     descricao: string
     valorEstimado: number
-    dataConclusao: string
+    dataConclusaoPrevista: string
   }[]
 }
 
@@ -66,7 +66,7 @@ export function ProjetoForm({
     [codMarco: number]: {
       descricao: string
       valorEstimado: number
-      dataConclusao: Date | undefined
+      dataConclusaoPrevista: Date | undefined
     }
   }>({})
 
@@ -87,7 +87,7 @@ export function ProjetoForm({
         novosMarcos[exec.codMarcoRecomendado] = {
           descricao: exec.descricao,
           valorEstimado: exec.valorEstimado,
-          dataConclusao: exec.dataConclusao ? new Date(exec.dataConclusao) : undefined,
+          dataConclusaoPrevista: exec.dataConclusaoPrevista ? new Date(exec.dataConclusaoPrevista) : undefined,
         }
       })
       setMarcos(novosMarcos)
@@ -97,7 +97,7 @@ export function ProjetoForm({
         inicial[m.codMarcoRecomendado] = {
           descricao: '',
           valorEstimado: 0,
-          dataConclusao: undefined,
+          dataConclusaoPrevista: undefined,
         }
       })
       setMarcos(inicial)
@@ -121,7 +121,7 @@ export function ProjetoForm({
         !marco ||
         !marco.descricao.trim() ||
         !marco.valorEstimado ||
-        !marco.dataConclusao
+        !marco.dataConclusaoPrevista
       )
     })
     if (temErro) {
@@ -153,8 +153,8 @@ export function ProjetoForm({
           codMarcoRecomendado: m.codMarcoRecomendado,
           descricao: marco.descricao ?? '',
           valorEstimado: marco.valorEstimado ?? 0,
-          dataConclusao: marco.dataConclusao
-            ? marco.dataConclusao.toISOString()
+          dataConclusaoPrevista: marco.dataConclusaoPrevista
+            ? marco.dataConclusaoPrevista.toISOString()
             : null,
         }
       }),
@@ -302,21 +302,21 @@ export function ProjetoForm({
                 >
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full">
-                      {marcos[marco.codMarcoRecomendado]?.dataConclusao
-                        ? marcos[marco.codMarcoRecomendado].dataConclusao!.toLocaleDateString('pt-BR')
+                      {marcos[marco.codMarcoRecomendado]?.dataConclusaoPrevista
+                        ? marcos[marco.codMarcoRecomendado].dataConclusaoPrevista!.toLocaleDateString('pt-BR')
                         : 'Selecione'}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
                     <Calendar
                       mode="single"
-                      selected={marcos[marco.codMarcoRecomendado]?.dataConclusao}
+                      selected={marcos[marco.codMarcoRecomendado]?.dataConclusaoPrevista}
                       onSelect={(date) =>
                         setMarcos((prev) => ({
                           ...prev,
                           [marco.codMarcoRecomendado]: {
                             ...prev[marco.codMarcoRecomendado],
-                            dataConclusao: date,
+                            dataConclusaoPrevista: date,
                           },
                         }))
                       }
