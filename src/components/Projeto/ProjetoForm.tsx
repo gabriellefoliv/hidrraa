@@ -269,7 +269,7 @@ export function ProjetoForm({
         {tipoProjeto.marcosRecomendados.map((marco, index) => (
           <div key={marco.codMarcoRecomendado} className="border p-4 rounded-md mb-4">
             <h3 className="font-semibold text-sky-800 mb-2">
-              {marco.descricao}
+              <span className='font-bold text-sky-900'>Marco {index + 1}: </span>{marco.descricao}
             </h3>
 
             <div className="mb-2">

@@ -37,6 +37,7 @@ export interface ProjetoCardProps {
   showDelete?: boolean;
   mostrarStatusAvaliacao?: boolean;
   onExecutar?: () => void;
+  onAnalisarMarco?: () => void;
   mostrarEntidade?: boolean;
   mostrarNota?: boolean;
   nota?: number;
@@ -55,6 +56,7 @@ export function ProjetoCard({
   onDelete,
   showDelete = false,
   onExecutar,
+  onAnalisarMarco,
   mostrarStatusAvaliacao
 }: ProjetoCardProps) {
   return (
@@ -212,6 +214,18 @@ export function ProjetoCard({
           className="flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
         >
           Executar Marco
+        </Button>
+      )}
+
+      {onAnalisarMarco && (
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAnalisarMarco();
+          }}
+          className="flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
+        >
+          Analisar Evidências do Marco
         </Button>
       )}
 

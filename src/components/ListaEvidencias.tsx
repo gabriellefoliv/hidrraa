@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { api } from "@/lib/api"
 import { toast } from "sonner"
 import { ChevronDown, Trash2 } from "lucide-react"
+import { ImagemModal } from "./ImagemModal"
 
 interface Evidencia {
   codEvidenciaApresentada: number
@@ -90,11 +91,7 @@ export function ListaEvidencias({
                     className="flex items-center gap-4 border rounded-md p-2 bg-gray-50"
                   >
                     {isImage ? (
-                      <img
-                        src={url}
-                        alt="Preview"
-                        className="w-20 h-20 object-cover rounded shadow"
-                      />
+                      <ImagemModal src={url} />
                     ) : (
                       <a
                         href={url}

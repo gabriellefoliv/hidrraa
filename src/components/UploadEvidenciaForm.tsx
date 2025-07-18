@@ -1,6 +1,6 @@
 import { api } from "@/lib/api"
 import { UploadCloud } from "lucide-react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { SubmeterEvidenciasModal } from "./SubmeterEvidenciasModal"
 
@@ -15,8 +15,23 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
   const [file, setFile] = useState<File | null>(null)
   const [tipo, setTipo] = useState<'fotos' | 'documentos'>('fotos')
   const [dragOver, setDragOver] = useState(false)
+  const [evidenciasExistentes, setEvidenciasExistentes] = useState<number>(0)
+
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const fetchEvidencias = async () => {
+    try {
+      const res = await api.get(`/evidencias/${codProjeto}/${codExecucaoMarco}`)
+      setEvidenciasExistentes(res.data.length) // Assumindo que o backend retorna array
+    } catch {
+      setEvidenciasExistentes(0)
+    }
+  }
+
+  useEffect(() => {
+    fetchEvidencias()
+  }, [codProjeto, codExecucaoMarco])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async (e:any) => {
@@ -47,6 +62,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
       await api.post('/evidencias/upload', form)
       toast.success('Evidência enviada com sucesso!')
       setFile(null)
+      await fetchEvidencias()
       onUploadSuccess?.()
     } catch {
       toast.error('Erro ao enviar evidência. Verifique se o envio já não foi confirmado.')
@@ -67,17 +83,41 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
   }
 
   const handleSubmit = async () => {
-      try {    
-        await api.put(`/evidencias/submeter`, { codExecucaoMarco })
-        toast.success('Evidências submetidas com sucesso!')
-        onUploadSuccess?.()
-        window.location.reload()
-        
-      } catch (error) {
-        console.error('[SUBMETER] Erro ao submeter projeto:', error)
-        toast.error('Erro ao submeter projeto. Verifique os dados e tente novamente.')  
+    try {
+      if (!file && evidenciasExistentes === 0) {
+        toast.error('Você precisa anexar pelo menos uma evidência antes de submeter.')
+        return
       }
+
+      if (file) {
+        if (file.size > 10 * 1024 * 1024) {
+          toast.error('O arquivo deve ser menor que 10MB.')
+          return
+        }
+
+        const form = new FormData()
+        form.append('codProjeto', codProjeto.toString())
+        form.append('codExecucaoMarco', codExecucaoMarco.toString())
+        form.append('codEvidenciaDemandada', '1') 
+        form.append('tipo', tipo)
+        form.append('file', file)
+
+        await api.post('/evidencias/upload', form)
+        toast.success('Evidência enviada com sucesso antes da submissão!')
+        setFile(null)
+      }
+
+      await api.put(`/evidencias/submeter`, { codExecucaoMarco })
+      toast.success('Evidências submetidas com sucesso!')
+      onUploadSuccess?.()
+      window.location.reload()
+      
+    } catch (error) {
+      console.error('[SUBMETER] Erro ao submeter projeto:', error)
+      toast.error('Erro ao submeter projeto. Verifique os dados e tente novamente.')
+    }
   }
+
 
     if (bloqueado) {
       return (

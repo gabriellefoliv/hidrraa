@@ -13,6 +13,7 @@ import {
   Save,
   Download,
   FileCog,
+  Workflow,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -41,6 +42,11 @@ export default function SidebarRoutes() {
           { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
           { name: 'Projetos Salvos', icon: Save, href: '/projetos-salvos' },
           { name: 'Projetos Submetidos', icon: Download, href: '/projetos-submetidos' },
+        ],
+      },
+      {
+        section: 'Marcos',
+        routes: [
           { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-aprovados' },
         ],
       },
@@ -68,6 +74,7 @@ export default function SidebarRoutes() {
         routes: [
           { name: 'Projetos A Avaliar', icon: FileClock, href: '/avaliacoes' },
           { name: 'Projetos Avaliados', icon: FileCheck, href: '/projetos-avaliados' },
+          { name: 'Análise de Marcos', icon: Workflow, href: '/analise-marcos' },
         ],
       },
       {

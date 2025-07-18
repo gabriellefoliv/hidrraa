@@ -17,6 +17,8 @@ import ProjetosSubmetidos from './screens/ProjetosSubmetidos';
 import EditarProjeto from './screens/EditarProjeto';
 import ProjetosAprovados from './screens/ProjetosAprovados';
 import ExecucaoMarco from './screens/ExecucaoMarco';
+import AnaliseMarco from './screens/AnaliseMarco';
+import AvaliacaoEvidencias from './screens/AvaliacaoEvidencias';
 
 function App() {
 
@@ -104,6 +106,18 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <ExecucaoMarco />
+            </ProtectedRoute>
+          }/>
+          <Route path='/analise-marcos' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <AnaliseMarco />
+            </ProtectedRoute>
+          }/>
+          <Route path='/analise-marcos/:codProjeto' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <AvaliacaoEvidencias />
             </ProtectedRoute>
           }/>
         </Routes>
