@@ -187,6 +187,7 @@ export default function ProjetosAprovados() {
                         projeto={projeto}
                         mostrarStatusAvaliacao={true}
                         onExecutar={() => navigate(`/executar-marcos/${projeto.codProjeto}`)}
+                        onMarcosAvaliados={() => navigate(`/marcos-avaliados/${projeto.codProjeto}`)}
                     />
                 ))}
                 </div>

@@ -15,10 +15,11 @@ import ProjetosAvaliados from './screens/MembroCBH/ProjetosAvaliados';
 import ProjetosSalvos from './screens/EntExec/ProjetosSalvos';
 import ProjetosSubmetidos from './screens/EntExec/ProjetosSubmetidos';
 import EditarProjeto from './screens/EntExec/EditarProjeto';
-import ProjetosAprovados from './screens/MembroCBH/ProjetosAprovados';
+import ProjetosAprovados from './screens/EntExec/ProjetosAprovados';
 import ExecucaoMarco from './screens/EntExec/ExecucaoMarco';
 import AnaliseMarco from './screens/MembroCBH/AnaliseMarco';
 import AvaliacaoEvidencias from './screens/MembroCBH/AvaliacaoEvidencias';
+import MarcosAvaliados from './screens/EntExec/MarcosAvaliados';
 
 function App() {
 
@@ -118,6 +119,12 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <AvaliacaoEvidencias />
+            </ProtectedRoute>
+          }/>
+          <Route path='/marcos-avaliados/:codProjeto' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <MarcosAvaliados />
             </ProtectedRoute>
           }/>
         </Routes>

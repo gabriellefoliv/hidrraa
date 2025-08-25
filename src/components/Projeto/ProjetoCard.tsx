@@ -1,4 +1,4 @@
-import { BadgeDollarSign, CalendarDays } from "lucide-react";
+import { BadgeDollarSign, CalendarDays, Check, FileDown } from "lucide-react";
 import { Button } from "../ui/button";
 
 export interface ProjetoCardProps {
@@ -37,6 +37,7 @@ export interface ProjetoCardProps {
   showDelete?: boolean;
   mostrarStatusAvaliacao?: boolean;
   onExecutar?: () => void;
+  onMarcosAvaliados?: () => void;
   onAnalisarMarco?: () => void;
   mostrarEntidade?: boolean;
   mostrarNota?: boolean;
@@ -56,6 +57,7 @@ export function ProjetoCard({
   onDelete,
   showDelete = false,
   onExecutar,
+  onMarcosAvaliados,
   onAnalisarMarco,
   mostrarStatusAvaliacao
 }: ProjetoCardProps) {
@@ -204,18 +206,35 @@ export function ProjetoCard({
           </p>
         )}
       </div>
+        <div className="flex gap-2">
+          {onExecutar && (
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onExecutar();
+                }}
+                className="flex justify-content mt-4 bg-sky-950 text-white hover:bg-sky-200 hover:text-sky-950 transition duration-500 hover:duration-500 hover:transition"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Executar Marco
+              </Button>
+            
 
-      {onExecutar && (
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            onExecutar();
-          }}
-          className="flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
-        >
-          Executar Marco
-        </Button>
-      )}
+          )}
+
+          {onMarcosAvaliados && (
+            <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onMarcosAvaliados();
+                }}
+                className="flex justify-content mt-4 border-2 border-dashed border-sky-950 bg-sky-100 text-sky-950 hover:bg-sky-950 hover:border-sky-100 hover:text-white transition duration-500 hover:transition hover:duration-500"
+              >
+                <Check className="w-4 h-4 mr-2" />
+                Marcos Avaliados
+              </Button>
+          )}
+        </div>
 
       {onAnalisarMarco && (
         <Button
