@@ -4,6 +4,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --animate-first: moveAround 25s ease-in-out infinite;
+  --animate-second: moveAround 30s ease-in-out infinite reverse;
+  --animate-third: moveAround 35s ease-in-out infinite;
+  --animate-fourth: moveAround 28s ease-in-out infinite reverse;
+  --animate-fifth: moveAround 40s ease-in-out infinite;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -123,4 +128,64 @@
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem;
+}
+
+
+.animate-gradient {
+  background-size: 300% 100%;
+  animation: gradient 8s ease infinite;
+}
+ 
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+ 
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+ 
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moveAround {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(200px, -100px);
+  }
+  50% {
+    transform: translate(-150px, 150px);
+  }
+  75% {
+    transform: translate(300px, 200px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }

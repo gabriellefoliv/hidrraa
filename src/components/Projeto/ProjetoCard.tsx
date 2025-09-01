@@ -242,7 +242,7 @@ export function ProjetoCard({
             e.stopPropagation();
             onAnalisarMarco();
           }}
-          className="flex justify-content mt-4 bg-green-600 text-white hover:bg-green-700"
+          className="flex justify-content mt-4 bg-sky-900 text-white hover:bg-sky-600"
         >
           Analisar Evidências do Marco
         </Button>

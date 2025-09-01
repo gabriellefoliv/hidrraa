@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, Clock, FileText, Calendar, DollarSign } from 'lucide-react'; 
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,6 +5,7 @@ import { api } from '@/lib/api';
 import { toast } from 'sonner';
 import { Loading } from '@/components/Loading';
 import { ImagemModal } from '@/components/ImagemModal';
+import { BuscarFinanciamentoModal } from '@/components/BuscarFinanciamentoModal';
 
 interface Projeto {
     titulo: string;
@@ -28,12 +28,14 @@ interface Projeto {
             codEvidenciaDemandada: number;
         }[];
     }[];
+    bc_valorPagto: number | null;
 }
 
 export default function MarcosAvaliados() {
     const {codProjeto} = useParams()
     const navigate = useNavigate();
     const [project, setProject] = useState<Projeto | null>(null);
+    const [saldo, setSaldo] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -46,6 +48,12 @@ export default function MarcosAvaliados() {
         .finally(() => {
             setLoading(false);
         });
+
+        if (codProjeto) {
+            api.get(`/projetos/${codProjeto}/saldo`).then(response => {
+                setSaldo(response.data.saldoDisponivel)
+            })
+        }
     }, [codProjeto]);
 
     if (loading) {
@@ -113,6 +121,7 @@ export default function MarcosAvaliados() {
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Cronograma:</strong> {project.cronograma || 'Não informado'}</p>
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Ações:</strong> {project.acoes || 'Não informado'}</p>
                     <p className="flex items-center"><DollarSign size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Orçamento:</strong> {project.orcamento || 'Não informado'}</p>
+                    <p className="flex items-center"><DollarSign size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Valor Total Aprovado:</strong> {project.bc_valorPagto ? `R$ ${project.bc_valorPagto.toFixed(2)}` : 'Não informado'}</p>
                 </div>
             </div>
 
@@ -186,9 +195,7 @@ export default function MarcosAvaliados() {
                     {/* Botões Condicionais */}
                     <div className="mt-5 flex flex-col sm:flex-row gap-3">
                         {marco.bc_statusValidacaoCBH === "APROVADO" && (
-                        <button className="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform">
-                            Buscar Financiamento
-                        </button>
+                            <BuscarFinanciamentoModal bc_valorPagto={project.bc_valorPagto} saldoDisponivel={saldo} codExecucaoMarco={marco.codExecucaoMarco} onSubmitSuccess={() => {}} />
                         )}
                         {marco.bc_statusValidacaoCBH === "PENDENTE" && (
                         <button onClick={() => navigate(`/executar-marcos/${codProjeto}`)} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform">
