@@ -21,9 +21,6 @@ export interface ProjetoCardProps {
     entidadeexecutora?: {
       nome: string;
     };
-    avaliacao?: {
-      bc_aprovado: boolean;
-    };
     microbacia?: {
       nome: string;
     };
@@ -35,13 +32,10 @@ export interface ProjetoCardProps {
   onClick?: () => void;
   onDelete?: (codProjeto: number) => void;
   showDelete?: boolean;
-  mostrarStatusAvaliacao?: boolean;
   onExecutar?: () => void;
   onMarcosAvaliados?: () => void;
   onAnalisarMarco?: () => void;
   mostrarEntidade?: boolean;
-  mostrarNota?: boolean;
-  nota?: number;
   isOpen?: boolean;
   children?: React.ReactNode;
 }
@@ -49,17 +43,13 @@ export interface ProjetoCardProps {
 export function ProjetoCard({
   projeto,
   onClick,
-//   mostrarEntidade = false,
-//   mostrarNota = false,
   isOpen = false,
   children,
-  nota,
   onDelete,
   showDelete = false,
   onExecutar,
   onMarcosAvaliados,
-  onAnalisarMarco,
-  mostrarStatusAvaliacao
+  onAnalisarMarco
 }: ProjetoCardProps) {
   return (
     <div
@@ -74,11 +64,7 @@ export function ProjetoCard({
             {projeto.tipo_projeto.nome}
           </p>
         </div>
-        {nota && (
-          <span className="bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full font-semibold">
-            ⭐ {nota.toFixed(1)}
-          </span>
-        )}
+        
         {projeto.dataSubmissao && (
             <p className="text-xs text-slate-500">
                 Submetido em:{" "}
@@ -175,27 +161,6 @@ export function ProjetoCard({
               Excluir
           </button>
         )}
-
-        {mostrarStatusAvaliacao && (
-          <>
-            {typeof projeto.avaliacao?.bc_aprovado === 'boolean' ? (
-              <span
-          className={`mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full ${
-            projeto.avaliacao.bc_aprovado
-              ? 'bg-green-100 text-green-800'
-              : 'bg-red-100 text-red-800'
-          }`}
-              >
-          {projeto.avaliacao.bc_aprovado ? 'Aprovado' : 'Reprovado'}
-              </span>
-            ) : (
-              <span className="mt-4 inline-block text-xs font-medium px-2 py-1 rounded-full bg-orange-100 text-orange-600">
-                Avaliação Pendente
-              </span>
-            )}
-          </>
-        )}
-
 
         {projeto.nomesAvaliadores && projeto.nomesAvaliadores.length > 0 && (
           <p className="text-xs text-slate-600 mt-1">

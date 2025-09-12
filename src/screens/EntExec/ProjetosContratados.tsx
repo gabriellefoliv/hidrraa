@@ -30,16 +30,12 @@ interface ProjetoAprovado {
       dataConclusaoPrevista: string
     }[]
   }
-  avaliacao: {
-    bc_aprovado: boolean
-  }
     microbacia?: {
         nome: string
     }
-    
 }
 
-export default function ProjetosAprovados() {
+export default function ProjetosContratados() {
     const navigate = useNavigate()
 
     const [projetos, setProjetos] = useState<ProjetoAprovado[]>([]);
@@ -93,9 +89,9 @@ export default function ProjetosAprovados() {
 
     return (
         <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-            <h1 className="text-2xl font-bold mb-4 text-center mt-4">Projetos Aprovados</h1>
-            <p className="font-bold text-zinc-500 text-center mb-4">Veja os seus projetos aprovados e selecione um para executar um marco.</p>
-            
+            <h1 className="text-2xl font-bold mb-4 text-center mt-4">Projetos Contratados</h1>
+            <p className="font-bold text-zinc-500 text-center mb-4">Veja os seus projetos contratados e selecione um para executar um marco.</p>
+
             {/* Filtros */}
             <div className="flex items-center gap-4 mb-6">
                 <h2 className="font-bold text-gray-600">Filtros</h2>
@@ -185,7 +181,6 @@ export default function ProjetosAprovados() {
                 {projetosFiltrados.map((projeto) => (
                     <ProjetoCard
                         projeto={projeto}
-                        mostrarStatusAvaliacao={true}
                         onExecutar={() => navigate(`/executar-marcos/${projeto.codProjeto}`)}
                         onMarcosAvaliados={() => navigate(`/marcos-avaliados/${projeto.codProjeto}`)}
                     />

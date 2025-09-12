@@ -10,12 +10,10 @@ import CriarProjeto from './screens/EntExec/CriarProjeto';
 import RealizarAporte from './screens/Investidor/RealizarAporte';
 import AportesRealizados from './screens/Investidor/AportesRealizados';
 import ValidarAporte from './screens/MembroCBH/ValidarAporte';
-import AvaliarProjetos from './screens/MembroCBH/AvaliarProjeto';
-import ProjetosAvaliados from './screens/MembroCBH/ProjetosAvaliados';
 import ProjetosSalvos from './screens/EntExec/ProjetosSalvos';
 import ProjetosSubmetidos from './screens/EntExec/ProjetosSubmetidos';
 import EditarProjeto from './screens/EntExec/EditarProjeto';
-import ProjetosAprovados from './screens/EntExec/ProjetosAprovados';
+import ProjetosContratados from './screens/EntExec/ProjetosContratados';
 import ExecucaoMarco from './screens/EntExec/ExecucaoMarco';
 import AnaliseMarco from './screens/MembroCBH/AnaliseMarco';
 import AvaliacaoEvidencias from './screens/MembroCBH/AvaliacaoEvidencias';
@@ -85,22 +83,10 @@ function App() {
               <ValidarAporte />
             </ProtectedRoute>
           }/>
-          <Route path='/avaliacoes' element={
+          <Route path='/projetos-contratados' element={
             <ProtectedRoute>
               <SidebarRoutes/>
-              <AvaliarProjetos />
-            </ProtectedRoute>
-          }/>
-          <Route path='/projetos-avaliados' element={
-            <ProtectedRoute>
-              <SidebarRoutes/>
-              <ProjetosAvaliados />
-            </ProtectedRoute>
-          }/>
-          <Route path='/projetos-aprovados' element={
-            <ProtectedRoute>
-              <SidebarRoutes/>
-              <ProjetosAprovados />
+              <ProjetosContratados />
             </ProtectedRoute>
           }/>
           <Route path='/executar-marcos/:codProjeto' element={

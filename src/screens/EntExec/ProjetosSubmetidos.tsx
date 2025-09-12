@@ -29,9 +29,6 @@ interface ProjetoSubmetido {
       dataConclusaoPrevista: string
     }[]
   }
-  avaliacao: {
-    bc_aprovado: boolean
-  }
     microbacia?: {
         nome: string
     }
@@ -84,15 +81,8 @@ export default function ProjetosSubmetidos() {
             : true
         : true;
 
-        const statusOk = statusSelecionado
-            ? statusSelecionado === "Avaliação Pendente"
-                ? projeto.avaliacao?.bc_aprovado !== true && projeto.avaliacao?.bc_aprovado !== false
-                : statusSelecionado === "Aprovado"
-                ? projeto.avaliacao?.bc_aprovado === true
-                : projeto.avaliacao?.bc_aprovado === false
-            : true;
 
-        return tipoOk && dataOk && statusOk;
+        return tipoOk && dataOk;
     });
 
     useEffect(() => {
@@ -223,7 +213,6 @@ export default function ProjetosSubmetidos() {
                 {projetosFiltrados.map((projeto) => (
                     <ProjetoCard
                         projeto={projeto}
-                        mostrarStatusAvaliacao={true}
                     />
                 ))}
                 </div>

@@ -6,8 +6,6 @@ import {
   ChevronUp,
   DollarSign,
   CircleDollarSign,
-  FileClock,
-  FileCheck,
   Waves,
   UserRoundPen,
   Save,
@@ -16,7 +14,6 @@ import {
   Workflow,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
-// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar, AvatarFallback } from './ui/avatar'
 import { useContext } from 'react'
 import Logo from '@/assets/hidra-logo.png'
@@ -47,7 +44,7 @@ export default function SidebarRoutes() {
       {
         section: 'Marcos',
         routes: [
-          { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-aprovados' },
+          { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-contratados' },
         ],
       },
       
@@ -70,10 +67,8 @@ export default function SidebarRoutes() {
         ],
       },
       {
-        section: 'Avaliações',
+        section: 'Marcos e Evidências',
         routes: [
-          { name: 'Projetos A Avaliar', icon: FileClock, href: '/avaliacoes' },
-          { name: 'Projetos Avaliados', icon: FileCheck, href: '/projetos-avaliados' },
           { name: 'Análise de Marcos', icon: Workflow, href: '/analise-marcos' },
         ],
       },

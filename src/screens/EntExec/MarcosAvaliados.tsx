@@ -12,7 +12,7 @@ interface Projeto {
     objetivo: string;
     acoes: string;
     cronograma: string | null; 
-    orcamento: string | null; 
+    orcamento: number | null; 
     dataSubmissao?: string | null; 
     execucao_marco: {
         codExecucaoMarco: number;
@@ -28,7 +28,6 @@ interface Projeto {
             codEvidenciaDemandada: number;
         }[];
     }[];
-    bc_valorPagto: number | null;
 }
 
 export default function MarcosAvaliados() {
@@ -121,7 +120,6 @@ export default function MarcosAvaliados() {
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Cronograma:</strong> {project.cronograma || 'Não informado'}</p>
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Ações:</strong> {project.acoes || 'Não informado'}</p>
                     <p className="flex items-center"><DollarSign size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Orçamento:</strong> {project.orcamento || 'Não informado'}</p>
-                    <p className="flex items-center"><DollarSign size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Valor Total Aprovado:</strong> {project.bc_valorPagto ? `R$ ${project.bc_valorPagto.toFixed(2)}` : 'Não informado'}</p>
                 </div>
             </div>
 
@@ -195,7 +193,7 @@ export default function MarcosAvaliados() {
                     {/* Botões Condicionais */}
                     <div className="mt-5 flex flex-col sm:flex-row gap-3">
                         {marco.bc_statusValidacaoCBH === "APROVADO" && (
-                            <BuscarFinanciamentoModal bc_valorPagto={project.bc_valorPagto} saldoDisponivel={saldo} codExecucaoMarco={marco.codExecucaoMarco} onSubmitSuccess={() => {}} />
+                            <BuscarFinanciamentoModal bc_valorPagto={project.orcamento} saldoDisponivel={saldo} codExecucaoMarco={marco.codExecucaoMarco} onSubmitSuccess={() => {}} />
                         )}
                         {marco.bc_statusValidacaoCBH === "PENDENTE" && (
                         <button onClick={() => navigate(`/executar-marcos/${codProjeto}`)} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform">
