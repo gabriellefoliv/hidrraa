@@ -1,5 +1,6 @@
 import { LoginForm } from "@/components/Auth/LoginForm"
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation"
+import HidraLogo from '../../assets/hidra-logo.png'
 
 export default function Login() {
     return (
@@ -17,7 +18,10 @@ export default function Login() {
         >
             <div className="w-full min-h-screen flex items-center justify-center py-12 px-6">
                 <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-                <h2 className="text-2xl font-semibold text-center text-sky-900 mb-6">Login</h2>
+                    <div className="flex justify-center">
+                        <img className="w-40 mx-auto mb-6" src={HidraLogo} />
+                        <h2 className="flex-1 text-2xl font-semibold text-end text-sky-900 mb-6">Login</h2>
+                    </div>
                     <LoginForm/>
                 </div>
             </div>

@@ -40,7 +40,7 @@ export default function AvaliacaoEvidencias() {
   if (execucoes.length === 0) return <p>Nenhuma evidência submetida.</p>
 
   return (
-    <div className="max-w-9xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow">
+    <div className="w-full mx-auto mt-12 bg-white p-6 rounded-2xl shadow">
       <h1 className="text-2xl font-bold mb-6 text-center text-sky-800">
         Validação de Evidências
       </h1>

@@ -9,8 +9,9 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js'
+import { toast } from 'sonner'
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!)
+const stripePromise = loadStripe("pk_test_51RVtXFP35163kb4TT9w9cmKxDCFE1MwzYlsTZv9ikYzmvSOp90U1GfE5Kx4K1odHAtYUCmr2kVtXSGZBMW8qToBa00MSAUJyql")
 
 type CheckoutFormProps = {
   onPaymentSuccess: (message: string) => void
@@ -44,7 +45,8 @@ const CheckoutForm = ({ onPaymentSuccess, onPaymentError, valor }: CheckoutFormP
         const response = await api.post('/aportes', {
           bc_valor: Number(valor),
         })
-        onPaymentSuccess(`Aporte realizado com sucesso! ID: ${response.data.aporteId}`)
+        onPaymentSuccess(response.data.aporteId)
+        toast.success(`Aporte realizado com sucesso!`)
       } catch (dbError: any) {
         const mensagemErro = dbError.response?.data?.error || 'Pagamento bem-sucedido, mas falha ao registrar o aporte.'
         onPaymentError(mensagemErro)
@@ -61,7 +63,7 @@ const CheckoutForm = ({ onPaymentSuccess, onPaymentError, valor }: CheckoutFormP
         <PaymentElement id="payment-element" />
         <button
             disabled={isProcessing || !stripe || !elements}
-            className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            className="w-full bg-sky-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
         >
             <span>
                 {isProcessing ? 'Processando...' : `Pagar R$ ${valor.toFixed(2)}`}
@@ -139,7 +141,7 @@ export default function RealizarAportes() {
   const appearance: import('@stripe/stripe-js').Appearance = { theme: 'stripe', labels: 'floating' };
 
   return (
-    <div className="min-w-md max-w-lg mx-auto mt-12 bg-white p-8 rounded-2xl shadow-lg">
+    <div className="w-full mx-auto mt-12 bg-white p-8 rounded-2xl shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-center">Realizar Aporte</h1>
 
       {!clientSecret ? (
@@ -167,7 +169,7 @@ export default function RealizarAportes() {
           <button 
             type="submit"
             disabled={carregando || !bcValor}
-            className="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+            className="w-full bg-sky-950 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
           >
             {carregando ? 'Carregando...' : 'Ir para Pagamento'}
           </button>
@@ -182,15 +184,15 @@ export default function RealizarAportes() {
         </Elements>
       )}
 
-      {mensagem && (
+      {/* {mensagem && (
         <p className="mt-4 text-green-600 font-medium text-center">{mensagem}</p>
-      )}
+      )} */}
       {erro && (
         <div className="mt-4 text-red-600 font-medium text-center space-y-2">
             <p>{erro}</p>
             <button 
                 onClick={() => { setErro(null); setClientSecret(null); }} 
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-sky-900 hover:underline"
             >
                 Tentar novamente
             </button>

@@ -89,7 +89,7 @@ export default function AportesRealizados() {
 
 
   return (
-    <div className="min-w-3xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
+    <div className="w-full mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-center">Aportes Realizados</h1>
       
       {/* Filtro */}
