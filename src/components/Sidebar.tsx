@@ -23,7 +23,7 @@ export default function SidebarRoutes() {
 
   const { logout } = useContext(AuthContext)
 
-  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'membro_comite'
+  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'ent_del_tec'
 
   const routesByPerfil: Record<
     string,
@@ -49,7 +49,7 @@ export default function SidebarRoutes() {
           { name: 'Aportes Realizados', icon: Wallet, href: '/aportes-realizados' },],
         },
       ],
-      membro_comite: [
+      ent_del_tec: [
         {
           section: 'Cadastros Básicos',
           routes: [

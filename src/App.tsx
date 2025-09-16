@@ -5,18 +5,18 @@ import { AuthProvider } from './context/auth';
 import Home from './screens/Home';
 import { ProtectedRoute } from './components/Auth/ProtectedRoute';
 import SidebarRoutes from './components/Sidebar';
-import ModelosProjeto from './screens/MembroCBH/ModelosProjeto';
-import CriarProjeto from './screens/MembroCBH/CriarProjeto';
+import ModelosProjeto from './screens/EntDelTec/ModelosProjeto';
+import CriarProjeto from './screens/EntDelTec/CriarProjeto';
 import RealizarAporte from './screens/Investidor/RealizarAporte';
 import AportesRealizados from './screens/Investidor/AportesRealizados';
-import ValidarAporte from './screens/MembroCBH/ValidarAporte';
+import ValidarAporte from './screens/EntDelTec/ValidarAporte';
 import ProjetosSalvos from './screens/EntExec/ProjetosSalvos';
-import ProjetosSubmetidos from './screens/MembroCBH/ProjetosSubmetidos';
-import EditarProjeto from './screens/MembroCBH/EditarProjeto';
+import ProjetosSubmetidos from './screens/EntDelTec/ProjetosSubmetidos';
+import EditarProjeto from './screens/EntDelTec/EditarProjeto';
 import ProjetosContratados from './screens/EntExec/ProjetosContratados';
 import ExecucaoMarco from './screens/EntExec/ExecucaoMarco';
-import AnaliseMarco from './screens/MembroCBH/AnaliseMarco';
-import AvaliacaoEvidencias from './screens/MembroCBH/AvaliacaoEvidencias';
+import AnaliseMarco from './screens/EntDelTec/AnaliseMarco';
+import AvaliacaoEvidencias from './screens/EntDelTec/AvaliacaoEvidencias';
 import MarcosAvaliados from './screens/EntExec/MarcosAvaliados';
 
 function App() {

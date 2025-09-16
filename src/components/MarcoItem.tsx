@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { api } from '@/lib/api'
 import { ImagemModal } from '@/components/ImagemModal'
-import type { ExecucaoMarcoComEvidencias } from '../screens/MembroCBH/AvaliacaoEvidencias'
+import type { ExecucaoMarcoComEvidencias } from '../screens/EntDelTec/AvaliacaoEvidencias'
 
 type FormValues = {
   status: 'APROVADO' | 'REPROVADO' | 'PENDENTE'
