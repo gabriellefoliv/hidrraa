@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/auth'
 
 const routesByPerfil = {
-  entidade_executora: [{ routes: [{ href: '/projeto' }] }],
+  entidade_executora: [{ routes: [{ href: '/projetos-contratados' }] }],
   investidor: [{ routes: [{ href: '/aportes' }] }],
-  membro_comite: [{ routes: [{ href: '/validar-aportes' }] }],
+  membro_comite: [{ routes: [{ href: '/projeto' }] }],
 }
 
 export default function Home() {

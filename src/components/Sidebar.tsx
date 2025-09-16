@@ -34,14 +34,6 @@ export default function SidebarRoutes() {
   > = {
     entidade_executora: [
       {
-        section: 'Projetos',
-        routes: [
-          { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
-          { name: 'Projetos Salvos', icon: Save, href: '/projetos-salvos' },
-          { name: 'Projetos Submetidos', icon: Download, href: '/projetos-submetidos' },
-        ],
-      },
-      {
         section: 'Marcos',
         routes: [
           { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-contratados' },
@@ -55,17 +47,25 @@ export default function SidebarRoutes() {
         routes: [
           { name: 'Realizar Aporte', icon: DollarSign, href: '/aportes' },
           { name: 'Aportes Realizados', icon: Wallet, href: '/aportes-realizados' },],
-      },
-    ],
-    membro_comite: [
-      {
-        section: 'Cadastros Básicos',
-        routes: [
-          { name: 'Microbacias', icon: Waves, href: '/microbacias' },
-          { name: 'Produtores Rurais', icon: UserRoundPen, href: '/produtores' },
-          { name: 'Propriedades', icon: Building, href: '/propriedades' },
-        ],
-      },
+        },
+      ],
+      membro_comite: [
+        {
+          section: 'Cadastros Básicos',
+          routes: [
+            { name: 'Microbacias', icon: Waves, href: '/microbacias' },
+            { name: 'Produtores Rurais', icon: UserRoundPen, href: '/produtores' },
+            { name: 'Propriedades', icon: Building, href: '/propriedades' },
+          ],
+        },
+        {
+          section: 'Projetos',
+          routes: [
+            { name: 'Criar Projeto', icon: Users2, href: '/projeto' },
+            { name: 'Projetos Salvos', icon: Save, href: '/projetos-salvos' },
+            { name: 'Projetos Submetidos', icon: Download, href: '/projetos-submetidos' },
+          ],
+        },
       {
         section: 'Marcos e Evidências',
         routes: [

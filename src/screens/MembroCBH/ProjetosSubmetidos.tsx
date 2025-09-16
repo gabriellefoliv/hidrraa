@@ -44,9 +44,6 @@ export default function ProjetosSubmetidos() {
 
     const [date, setDate] = useState<{ from?: Date; to?: Date } | undefined>();
 
-    const [statusSelecionado, setStatusSelecionado] = useState<string | null>(null);
-
-
     const fetchProjetosSubmetidos = async () => {
         try {
             const response = await api.get("/projetos/submetidos");
@@ -169,37 +166,7 @@ export default function ProjetosSubmetidos() {
                     </div>
                     </PopoverContent>
                 </Popover>
-                {/* Filtro de status de avaliação */}
-                <Popover>
-                <PopoverTrigger asChild>
-                    <Button variant="outline">
-                    {statusSelecionado ?? "Status da Avaliação"}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64">
-                    <div className="flex flex-col gap-2">
-                    <button
-                        onClick={() => setStatusSelecionado(null)}
-                        className={`text-left px-4 py-2 rounded hover:bg-gray-100 ${
-                        !statusSelecionado ? "font-bold text-sky-900" : ""
-                        }`}
-                    >
-                        Todos os status
-                    </button>
-                    {["Avaliação Pendente", "Aprovado", "Reprovado"].map((status) => (
-                        <button
-                        key={status}
-                        onClick={() => setStatusSelecionado(status)}
-                        className={`text-left px-4 py-2 rounded hover:bg-gray-100 ${
-                            statusSelecionado === status ? "font-bold text-sky-900" : ""
-                        }`}
-                        >
-                        {status}
-                        </button>
-                    ))}
-                    </div>
-                </PopoverContent>
-                </Popover>
+                
                 </div>
             </div>
             {/* Fim dos filtros */}
