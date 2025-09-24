@@ -18,6 +18,7 @@ import ExecucaoMarco from './screens/EntExec/ExecucaoMarco';
 import AnaliseMarco from './screens/EntDelTec/AnaliseMarco';
 import AvaliacaoEvidencias from './screens/EntDelTec/AvaliacaoEvidencias';
 import MarcosAvaliados from './screens/EntExec/MarcosAvaliados';
+import CadastroAtores from './screens/EntDelTec/CadastroAtores';
 
 function App() {
 
@@ -111,6 +112,12 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <MarcosAvaliados />
+            </ProtectedRoute>
+          }/>
+          <Route path='/cadastro-atores' element={
+            <ProtectedRoute>
+              <SidebarRoutes/>
+              <CadastroAtores />
             </ProtectedRoute>
           }/>
         </Routes>

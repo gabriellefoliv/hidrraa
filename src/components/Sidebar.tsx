@@ -12,6 +12,7 @@ import {
   Download,
   FileCog,
   Workflow,
+  PanelsTopLeft,
 } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 import { Avatar, AvatarFallback } from './ui/avatar'
@@ -53,6 +54,7 @@ export default function SidebarRoutes() {
         {
           section: 'Cadastros Básicos',
           routes: [
+            { name: 'Atores', icon: PanelsTopLeft, href: '/cadastro-atores' },
             { name: 'Microbacias', icon: Waves, href: '/microbacias' },
             { name: 'Produtores Rurais', icon: UserRoundPen, href: '/produtores' },
             { name: 'Propriedades', icon: Building, href: '/propriedades' },

@@ -8,6 +8,7 @@ interface User {
   nome: string;
   email: string;
   perfil: string;
+  codCBH: number;
 }
 
 // Interface para a resposta da API de login
