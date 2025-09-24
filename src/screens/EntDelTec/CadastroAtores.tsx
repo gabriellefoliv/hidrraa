@@ -1,4 +1,5 @@
 import { CadastroForm } from "@/components/Auth/CadastroForm";
+import { Header } from "@/components/Header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
@@ -6,14 +7,10 @@ export default function CadastroAtores() {
     const [, setActiveTab] = useState('entExec')
     return (
         <div className="w-full mx-auto p-6">
-           <header className="border-b border-slate-200 pb-4 mb-8">
-                <h1 className="text-3xl font-bold text-slate-800">
-                    Cadastro de Atores
-                </h1>
-                <p className="mt-1 text-slate-500">
-                    Realize o cadastro de entidade executora e de entidade gerenciadora.
-                </p>
-            </header>
+           <Header 
+                title="Cadastro de Atores"
+                description="Realize o cadastro de entidade executora e de entidade gerenciadora."
+           />
             <Tabs defaultValue="entExec" onValueChange={setActiveTab}>
                 <TabsList className="w-full flex justify-center mb-4">
                     <TabsTrigger value="entExec" className="py-2 px-4 text-sky-900 border-b-2 border-transparent hover:border-blue-600">

@@ -10,7 +10,7 @@ import CriarProjeto from './screens/EntDelTec/CriarProjeto';
 import RealizarAporte from './screens/Investidor/RealizarAporte';
 import AportesRealizados from './screens/Investidor/AportesRealizados';
 import ValidarAporte from './screens/EntDelTec/ValidarAporte';
-import ProjetosSalvos from './screens/EntExec/ProjetosSalvos';
+import ProjetosSalvos from './screens/EntDelTec/ProjetosSalvos';
 import ProjetosSubmetidos from './screens/EntDelTec/ProjetosSubmetidos';
 import EditarProjeto from './screens/EntDelTec/EditarProjeto';
 import ProjetosContratados from './screens/EntExec/ProjetosContratados';

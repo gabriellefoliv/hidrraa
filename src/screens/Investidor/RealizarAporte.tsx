@@ -10,6 +10,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js'
 import { toast } from 'sonner'
+import { Header } from '@/components/Header'
 
 const stripePromise = loadStripe("pk_test_51RVtXFP35163kb4TT9w9cmKxDCFE1MwzYlsTZv9ikYzmvSOp90U1GfE5Kx4K1odHAtYUCmr2kVtXSGZBMW8qToBa00MSAUJyql")
 
@@ -141,9 +142,12 @@ export default function RealizarAportes() {
   const appearance: import('@stripe/stripe-js').Appearance = { theme: 'stripe', labels: 'floating' };
 
   return (
-    <div className="w-full mx-auto mt-12 bg-white p-8 rounded-2xl shadow-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">Realizar Aporte</h1>
-
+    <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-lg">
+      <Header
+        title="Realizar Aporte"
+        description="Realize um aporte para apoiar projetos da AGEVAP."
+      />
+      
       {!clientSecret ? (
         <form onSubmit={(e) => { e.preventDefault(); handleInitiatePayment(); }} className="space-y-4">
           <div>

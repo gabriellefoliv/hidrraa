@@ -9,6 +9,7 @@ import { Calendar } from '@/components/ui/calendar'
 import type { DateRange } from 'react-day-picker'
 import { addDays, format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { Header } from '@/components/Header'
 
 interface Aporte {
   codAporte: number
@@ -89,8 +90,11 @@ export default function AportesRealizados() {
 
 
   return (
-    <div className="w-full mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">Aportes Realizados</h1>
+    <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow-lg">
+      <Header
+        title="Aportes Realizados"
+        description="Veja os aportes que você realizou."
+      />
       
       {/* Filtro */}
       <div className='flex items-center mb-6'>

@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { api } from '@/lib/api'
 import { Loading } from '@/components/Loading'
 import { MarcoItem } from '@/components/MarcoItem'
+import { Header } from '@/components/Header'
 
 type Evidencia = {
   codEvidenciaApresentada: number
@@ -40,11 +41,11 @@ export default function AvaliacaoEvidencias() {
   if (execucoes.length === 0) return <p>Nenhuma evidência submetida.</p>
 
   return (
-    <div className="w-full mx-auto mt-12 bg-white p-6 rounded-2xl shadow">
-      <h1 className="text-2xl font-bold mb-6 text-center text-sky-800">
-        Validação de Evidências
-      </h1>
-
+    <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow">
+      <Header 
+        title="Validação de Evidências"
+        description="Valide as evidências submetidas para os marcos do projeto."
+      />
       {execucoes.map(execucao => (
         <MarcoItem key={execucao.codExecucaoMarco} execucao={execucao} />
       ))}

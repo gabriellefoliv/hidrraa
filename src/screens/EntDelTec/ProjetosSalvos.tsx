@@ -1,3 +1,4 @@
+import { Header } from "@/components/Header";
 import { ProjetoCard } from "@/components/Projeto/ProjetoCard";
 import { api } from "@/lib/api"
 import { useEffect, useState } from "react";
@@ -67,8 +68,10 @@ export default function ProjetosSalvos() {
     
     return (
         <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-            <h1 className="text-2xl font-bold mb-6 text-center mt-4">Projetos Salvos</h1>
-            <p className="font-bold text-zinc-400 text-center">Edite os seus projetos antes de submeter</p>
+            <Header
+                title="Projetos Salvos"
+                description="Edite os seus projetos antes de submeter"
+            />
             {loading ? (
                 <p className="text-center">Carregando...</p>
             ) : projetos.length === 0 ? (

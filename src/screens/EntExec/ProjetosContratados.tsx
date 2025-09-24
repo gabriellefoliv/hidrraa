@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { Header } from "@/components/Header";
 
 interface ProjetoAprovado {
   codProjeto: number
@@ -88,9 +89,11 @@ export default function ProjetosContratados() {
     }, [])
 
     return (
-        <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-            <h1 className="text-2xl font-bold mb-4 text-center mt-4">Projetos Contratados</h1>
-            <p className="font-bold text-zinc-500 text-center mb-4">Veja os seus projetos contratados e selecione um para executar um marco.</p>
+        <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow-lg">
+            <Header
+                title="Projetos Contratados"
+                description="Veja os seus projetos contratados e selecione um para executar um marco."
+            />
 
             {/* Filtros */}
             <div className="flex items-center gap-4 mb-6">

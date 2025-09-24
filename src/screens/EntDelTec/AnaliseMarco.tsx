@@ -11,6 +11,7 @@ import type { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '@/components/Loading';
+import { Header } from '@/components/Header';
 
 interface Projeto {
   codProjeto: number;
@@ -101,9 +102,10 @@ export default function AnaliseMarco() {
 
   return (
     <div className="p-6 w-full mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">Análise de Marcos</h1>
-      <p className='font-bold text-zinc-700 text-center mb-4'>Veja projetos com evidências de marcos submetidas</p>
-
+      <Header 
+        title="Análise de Marcos"
+        description="Veja projetos com evidências de marcos submetidas."
+      />
       {/* Filtros */}
       <div className="flex items-center flex-wrap gap-4 mb-6">
         <p className='font-bold text-gray-600'>Filtros</p>

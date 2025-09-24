@@ -11,6 +11,7 @@ import type { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { toast } from 'sonner'
+import { Header } from '@/components/Header'
 
 interface Aporte {
   codAporte: number
@@ -90,8 +91,11 @@ export default function ValidarAportes() {
       )
 
   return (
-    <div className="min-w-5xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">Validação de Aportes</h1>
+    <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow-lg">
+      <Header
+        title="Validação de Aportes"
+        description="Valide os aportes realizados pelos investidores."
+      />
 
       {/* Filtro */}
       <div className='flex items-center mb-6'>

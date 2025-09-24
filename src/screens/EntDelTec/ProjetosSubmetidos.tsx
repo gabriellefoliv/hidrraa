@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
+import { Header } from "@/components/Header";
 
 interface ProjetoSubmetido {
   codProjeto: number
@@ -87,8 +88,11 @@ export default function ProjetosSubmetidos() {
     }, [])
 
     return (
-        <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
-            <h1 className="text-2xl font-bold mb-6 text-center mt-4">Projetos Submetidos</h1>
+        <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow-lg">
+            <Header
+                title="Projetos Submetidos"
+                description="Veja os projetos que foram submetidos para análise."
+            />
             
             {/* Filtros */}
             <div className="flex items-center gap-4 mb-6">
