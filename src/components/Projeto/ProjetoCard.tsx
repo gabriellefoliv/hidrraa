@@ -21,6 +21,9 @@ export interface ProjetoCardProps {
     entidadeexecutora?: {
       nome: string;
     };
+    entidade_gerenciadora?: {
+      nome: string;
+    };
     microbacia?: {
       nome: string;
     };
@@ -35,6 +38,8 @@ export interface ProjetoCardProps {
   onExecutar?: () => void;
   onMarcosAvaliados?: () => void;
   onAnalisarMarco?: () => void;
+  onDesignar?: (codProjeto: number) => void;
+  showDesignar?: boolean
   mostrarEntidade?: boolean;
   isOpen?: boolean;
   children?: React.ReactNode;
@@ -48,6 +53,8 @@ export function ProjetoCard({
   onDelete,
   showDelete = false,
   onExecutar,
+  onDesignar,
+  showDesignar = false,
   onMarcosAvaliados,
   onAnalisarMarco
 }: ProjetoCardProps) {
@@ -211,6 +218,28 @@ export function ProjetoCard({
         >
           Analisar Evidências do Marco
         </Button>
+      )}
+
+      {showDesignar && (
+        <>
+          {(!projeto.entidadeexecutora || !projeto.entidade_gerenciadora) ? (
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDesignar?.(projeto.codProjeto);
+              }}
+              className="flex justify-content mt-4 bg-sky-900 text-white hover:bg-sky-600"
+            >
+              Designar entidades ao projeto
+            </Button>
+          ) : (
+            <div className="mt-4 text-sm text-slate-600">
+              <p className="font-medium">Entidades designadas ao projeto:</p>
+              <p>Entidade Executora: <span className="font-medium">{projeto.entidadeexecutora?.nome}</span></p>
+              <p>Entidade Gerenciadora: <span className="font-medium">{projeto.entidade_gerenciadora?.nome}</span></p>
+            </div>
+          )}
+        </>
       )}
 
       {/* Área expansível */}

@@ -60,9 +60,6 @@ export function ProjetoForm({
   onSave,
   onSubmit,
 }: ProjetoFormProps) {
-  // --- OTIMIZAÇÃO 1: Inicialização direta dos estados simples ---
-  // Em vez de usar `useState('')` e depois um useEffect, inicializamos o estado
-  // com o valor da prop diretamente. Isso é mais rápido e limpo.
   const [titulo, setTitulo] = useState(projetoInicial?.titulo || '')
   const [objetivo, setObjetivo] = useState(projetoInicial?.objetivo || '')
   const [acoes, setAcoes] = useState(projetoInicial?.acoes || '')
@@ -71,9 +68,6 @@ export function ProjetoForm({
   const [codPropriedade, setCodPropriedade] = useState<number | null>(projetoInicial?.codPropriedade || null)
   const [codMicroBacia, setCodMicroBacia] = useState<number | null>(projetoInicial?.CodMicroBacia || null)
 
-  // --- OTIMIZAÇÃO 2: `useMemo` para calcular o estado inicial complexo dos marcos ---
-  // Esta é a principal melhoria. O cálculo pesado (loops) é feito aqui e o resultado
-  // é "memorizado". Ele só será re-executado se `projetoInicial` ou `tipoProjeto` mudarem.
   const marcosIniciais = useMemo(() => {
     const estadoInicialMarcos: MarcosState = {}
     if (projetoInicial) {
@@ -96,20 +90,12 @@ export function ProjetoForm({
     return estadoInicialMarcos
   }, [projetoInicial, tipoProjeto])
 
-  // O estado `marcos` é inicializado com o valor pré-calculado e memoizado.
   const [marcos, setMarcos] = useState<MarcosState>(marcosIniciais)
 
-  // --- OTIMIZAÇÃO 3: Lazy initialization para o estado dos calendários ---
-  // A função dentro do useState só executa na primeira renderização,
-  // evitando a criação do array em re-renderizações desnecessárias.
   const [openCalendars, setOpenCalendars] = useState<boolean[]>(() =>
     Array(tipoProjeto.marcosRecomendados.length).fill(false)
   )
 
-  // --- OTIMIZAÇÃO 4: `useEffect` simplificado ---
-  // Este useEffect agora serve apenas para o caso de `projetoInicial` mudar
-  // *depois* que o componente já foi montado. Ele reutiliza o valor `marcosIniciais`
-  // já calculado, tornando a atualização muito mais rápida.
   useEffect(() => {
     setTitulo(projetoInicial?.titulo || '')
     setObjetivo(projetoInicial?.objetivo || '')

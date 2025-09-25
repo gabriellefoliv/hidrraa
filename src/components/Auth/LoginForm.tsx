@@ -84,14 +84,14 @@ export function LoginForm() {
             </button>
         </div>
 
-        <div className="text-center mt-4">
+        {/* <div className="text-center mt-4">
             <p className="text-sm text-gray-600">
             Não possui conta?{" "}
             <a href="/cadastro" className="text-sky-900 hover:underline">
                 Faça o cadastro aqui
             </a>
             </p>
-        </div>
+        </div> */}
         </form>
     )
 }

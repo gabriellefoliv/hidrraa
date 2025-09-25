@@ -67,7 +67,7 @@ export default function ProjetosSalvos() {
     }, [])
     
     return (
-        <div className="min-w-4xl mx-auto mt-12 bg-white p-6 rounded-2xl shadow-lg">
+        <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow-lg">
             <Header
                 title="Projetos Salvos"
                 description="Edite os seus projetos antes de submeter"
