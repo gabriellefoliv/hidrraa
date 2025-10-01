@@ -59,6 +59,33 @@ export function MarcoItem({ execucao }: { execucao: ExecucaoMarcoComEvidencias }
             </li>
           )
         })}
+        {execucao.relatorio_gerenciadora.map(rel => {
+          const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
+          const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(rel.caminhoArquivo)
+
+          return (
+            <li
+              key={rel.codRelGer}
+              className="flex items-center gap-4 border rounded-md p-2 bg-white"
+            >
+              {isImage ? (
+                <ImagemModal src={url} />
+              ) : (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  Relatório da Entidade Gerenciadora
+                </a>
+              )}
+              <div className="text-sm text-gray-600">
+                Enviado em {new Date(rel.dataUpload).toLocaleDateString('pt-BR')}
+              </div>
+            </li>
+          )
+        })}
       </ul>
 
       {execucao.bc_statusValidacaoCBH ? (

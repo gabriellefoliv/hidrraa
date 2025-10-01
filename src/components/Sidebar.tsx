@@ -2,12 +2,9 @@ import { AuthContext, useAuth } from '@/context/auth'
 import {
   Users2,
   Wallet,
-  Building,
   ChevronUp,
   DollarSign,
   CircleDollarSign,
-  Waves,
-  UserRoundPen,
   Save,
   Download,
   FileCog,
@@ -24,7 +21,7 @@ export default function SidebarRoutes() {
 
   const { logout } = useContext(AuthContext)
 
-  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'ent_del_tec'
+  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'ent_del_tec', 'entidade_gerenciadora'
 
   const routesByPerfil: Record<
     string,
@@ -42,6 +39,14 @@ export default function SidebarRoutes() {
       },
       
     ],
+    entidade_gerenciadora: [
+      {
+        section: 'Marcos',
+        routes: [
+          { name: 'Execução de Marcos', icon: FileCog, href: '/projetos-contratados' },
+        ]
+      }
+    ],
     investidor: [
       {
         section: 'Aportes',
@@ -55,9 +60,6 @@ export default function SidebarRoutes() {
           section: 'Cadastros Básicos',
           routes: [
             { name: 'Atores', icon: PanelsTopLeft, href: '/cadastro-atores' },
-            { name: 'Microbacias', icon: Waves, href: '/microbacias' },
-            { name: 'Produtores Rurais', icon: UserRoundPen, href: '/produtores' },
-            { name: 'Propriedades', icon: Building, href: '/propriedades' },
           ],
         },
         {

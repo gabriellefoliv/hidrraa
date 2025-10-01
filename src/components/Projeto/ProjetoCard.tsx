@@ -25,7 +25,7 @@ export interface ProjetoCardProps {
       nome: string;
     };
     microbacia?: {
-      nome: string;
+      Nome: string;
     };
     propriedade?: {
         nome: string;
@@ -149,7 +149,7 @@ export function ProjetoCard({
       <div className="flex gap-2 items-center justify-between">
         {projeto.microbacia && (
           <span className="mt-4 inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
-            {projeto.microbacia.nome}
+            {projeto.microbacia.Nome}
           </span>
         )}
 

@@ -21,6 +21,8 @@ interface ProjetoAprovado {
   codPropriedade: number
   CodMicroBacia: number
   dataSubmissao: string
+  CodEntExec: number
+  codEntGer: number
   tipo_projeto: {
     codTipoProjeto: number
     nome: string
@@ -32,7 +34,22 @@ interface ProjetoAprovado {
     }[]
   }
     microbacia?: {
+        Nome: string
+    }
+    entidadeexecutora?: {
+        CodEntExec: number
         nome: string
+        cnpjcpf: string
+        especialidade: string
+        contato: string
+        codUsuario: number
+    }
+    entidade_gerenciadora?: {
+        codEntGer: number
+        nome: string
+        cnpjcpf: string
+        contato: string
+        codUsuario: number
     }
 }
 

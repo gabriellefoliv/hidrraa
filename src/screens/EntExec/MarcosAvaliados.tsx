@@ -27,6 +27,11 @@ interface Projeto {
             dataUpload: string;
             codEvidenciaDemandada: number;
         }[];
+        relatorio_gerenciadora: {
+            codRelGer: number;
+            caminhoArquivo: string;
+            dataUpload: string;
+        }[];
     }[];
 }
 
@@ -126,7 +131,7 @@ export default function MarcosAvaliados() {
             {/* Marcos e Evidências */}
             <div className="p-6 sm:p-8 bg-sky-50 border-t border-sky-200">
             <h2 className="text-2xl font-semibold text-sky-800 mb-6 border-b-2 border-sky-200 pb-2">Marcos e Evidências Avaliadas</h2>
-            <div className="space-y-8">
+            <div className="space-y-8 gap-2">
                 {project.execucao_marco.length > 0 ? (
                 project.execucao_marco.map((marco) => (
                     <div key={marco.codExecucaoMarco} className="bg-white rounded-lg shadow-md p-5 border border-sky-100">
@@ -185,9 +190,49 @@ export default function MarcosAvaliados() {
                             </li>
                             )
                         })}
+                        
                         </ul>
                     ) : (
                         <p className="text-gray-500 italic">Nenhuma evidência apresentada para este marco.</p>
+                    )}
+                    {marco.relatorio_gerenciadora.length > 0 ? (
+                        <ul className="list-disc list-inside text-gray-600 space-y-2 mb-2 mt-2">
+                        {marco.relatorio_gerenciadora.map((ev) => {
+                            const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
+                            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
+
+                            return (
+                            <li
+                                key={ev.codRelGer}
+                                className="flex items-center gap-4 border rounded-md p-2 bg-gray-50"
+                            >
+                                {isImage ? (
+                                <ImagemModal src={url} />
+                                ) : (
+                                <a
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 underline"
+                                >
+                                    Relatório enviado pela Entidade Gerenciadora
+                                </a>
+                                )}
+
+                                <div className="flex flex-col gap-1">
+                                <span className="text-xs text-gray-500">
+                                    Enviado em {new Date(ev.dataUpload).toLocaleDateString("pt-BR")}
+                                </span>
+
+                                
+                                </div>
+                            </li>
+                            )
+                        })}
+                        
+                        </ul>
+                    ) : (
+                        <p className="text-gray-500 italic mt-2">Nenhum relatório apresentado para este marco.</p>
                     )}
 
                     {/* Botões Condicionais */}

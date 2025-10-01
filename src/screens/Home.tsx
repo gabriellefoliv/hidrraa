@@ -6,6 +6,7 @@ const routesByPerfil = {
   entidade_executora: [{ routes: [{ href: '/projetos-contratados' }] }],
   investidor: [{ routes: [{ href: '/aportes' }] }],
   ent_del_tec: [{ routes: [{ href: '/projeto' }] }],
+  entidade_gerenciadora: [{ routes: [{ href: '/projetos-contratados' }] }],
 }
 
 export default function Home() {

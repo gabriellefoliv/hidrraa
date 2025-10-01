@@ -13,12 +13,19 @@ type Evidencia = {
   codEvidenciaDemandada: number
 }
 
+type Relatorio = {
+  codRelGer: number
+  caminhoArquivo: string
+  dataUpload: string
+}
+
 export type ExecucaoMarcoComEvidencias = {
   codExecucaoMarco: number
   descricao: string
   dataConclusaoEfetiva: string | null
   bc_statusValidacaoCBH: 'APROVADO' | 'REPROVADO' | 'PENDENTE' | null
   evidencia_apresentada: Evidencia[]
+  relatorio_gerenciadora: Relatorio[]
 }
 
 export default function AvaliacaoEvidencias() {
@@ -30,7 +37,7 @@ export default function AvaliacaoEvidencias() {
     if (codProjeto) {
       setLoading(true)
       api
-        .get(`/evidencias/${codProjeto}/submetidas`)
+        .get(`/marcos/${codProjeto}/submetidos`)
         .then(res => setExecucoes(res.data))
         .catch(() => toast.error('Erro ao carregar evidências'))
         .finally(() => setLoading(false))
