@@ -19,6 +19,8 @@ import AnaliseMarco from './screens/EntDelTec/AnaliseMarco';
 import AvaliacaoEvidencias from './screens/EntDelTec/AvaliacaoEvidencias';
 import MarcosAvaliados from './screens/EntExec/MarcosAvaliados';
 import CadastroAtores from './screens/EntDelTec/CadastroAtores';
+import SolicitacoesPagamento from './screens/EntDelFin/SolicitacoesPagamento';
+import MarcosProjetoPagamento from './screens/EntDelFin/MarcosProjetoPagamento';
 
 function App() {
 
@@ -118,6 +120,18 @@ function App() {
             <ProtectedRoute>
               <SidebarRoutes/>
               <CadastroAtores />
+            </ProtectedRoute>
+          }/>
+          <Route path='/solicitacoes-pagamento' element={
+            <ProtectedRoute>
+              <SidebarRoutes />
+              <SolicitacoesPagamento />
+            </ProtectedRoute>
+          }/>
+          <Route path='/solicitacoes-pagamento/:codProjeto' element={
+            <ProtectedRoute>
+              <SidebarRoutes />
+              <MarcosProjetoPagamento />
             </ProtectedRoute>
           }/>
         </Routes>

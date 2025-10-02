@@ -56,7 +56,7 @@ export function ProjetoCard({
   onDesignar,
   showDesignar = false,
   onMarcosAvaliados,
-  onAnalisarMarco
+  onAnalisarMarco,
 }: ProjetoCardProps) {
   return (
     <div

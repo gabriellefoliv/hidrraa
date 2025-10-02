@@ -21,7 +21,7 @@ export default function SidebarRoutes() {
 
   const { logout } = useContext(AuthContext)
 
-  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'ent_del_tec', 'entidade_gerenciadora'
+  const perfil = user?.perfil as keyof typeof routesByPerfil | undefined // 'entidade_executora', 'investidor', 'ent_del_tec', 'entidade_gerenciadora', 'ent_del_fin'
 
   const routesByPerfil: Record<
     string,
@@ -83,6 +83,14 @@ export default function SidebarRoutes() {
         ],
       },
     ],
+    ent_del_fin: [
+      {
+        section: 'Marcos e Evidências',
+        routes: [
+          { name: 'Análise de Marcos', icon: Workflow, href: '/analise-marcos' },
+        ],
+      }
+    ]
   }
 
   const items = perfil && routesByPerfil[perfil] ? routesByPerfil[perfil] : []

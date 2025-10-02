@@ -45,7 +45,7 @@ interface Projeto {
   };
 }
 
-export default function AnaliseMarco() {
+export default function MarcosProjetoPagamento() {
   const [projetos, setProjetos] = useState<Projeto[]>([])
   const [loading, setLoading] = useState(true)
 
