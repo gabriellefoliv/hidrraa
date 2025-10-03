@@ -33,7 +33,7 @@ export function MarcoItem({ execucao }: { execucao: ExecucaoMarcoComEvidencias }
 
       <ul className="space-y-2">
         {execucao.evidencia_apresentada.map(evidencia => {
-          const url = `http://localhost:3000/uploads/${evidencia.caminhoArquivo}`
+          const url = `https://api-hidrraa.onrender.com/uploads/${evidencia.caminhoArquivo}`
           const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(evidencia.caminhoArquivo)
 
           return (

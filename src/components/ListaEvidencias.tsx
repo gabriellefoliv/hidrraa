@@ -115,7 +115,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {evidencias.map((ev) => {
-                      const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
+                      const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
                       const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
 
                       return (
