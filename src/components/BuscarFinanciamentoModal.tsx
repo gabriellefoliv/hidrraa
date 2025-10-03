@@ -10,8 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { api } from '@/lib/api'
 import { toast } from 'sonner'
 
@@ -24,18 +22,16 @@ interface BuscarFinanciamentoModalProps {
 
 export function BuscarFinanciamentoModal({
   codExecucaoMarco,
-  onSubmitSuccess,
-  saldoDisponivel
+  saldoDisponivel, // saldo do projeto ou do marco
+  onSubmitSuccess
 }: BuscarFinanciamentoModalProps) {
-  const [valorSolicitado, setValorSolicitado] = useState('')
+  const [valorSolicitado, setValorSolicitado] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false) 
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleSolicitarFinanciamento = async () => {
-    const valorNumerico = parseFloat(valorSolicitado)
-
-    if (isNaN(valorNumerico) || valorNumerico <= 0) {
-      toast.error('Por favor, insira um valor de financiamento válido.')
+    if (!valorSolicitado || valorSolicitado <= 0) {
+      toast.error('Informe um valor válido.')
       return
     }
 
@@ -43,15 +39,14 @@ export function BuscarFinanciamentoModal({
     try {
       const response = await api.post('/financiamento/solicitar', {
         codExecucaoMarco,
-        valorSolicitado: valorNumerico,
+        valorSolicitado,
       })
 
       toast.success(
-        response.data.message || 'Solicitação enviada com sucesso!',
+        response.data.message || 'Solicitação enviada com sucesso!'
       )
       onSubmitSuccess()
-      setValorSolicitado('')
-      setIsOpen(false) 
+      setIsOpen(false)
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.error ||
@@ -71,31 +66,24 @@ export function BuscarFinanciamentoModal({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Solicitar Financiamento do Marco</DialogTitle>
+          <DialogTitle>Solicitar Financiamento</DialogTitle>
           <DialogDescription className="text-zinc-800 pt-2">
-            O saldo disponível para este projeto é de{' '}
-            <span className="font-bold">
-              R$ {saldoDisponivel ?? '0.00'}
-            </span>
-            . Insira o valor que deseja solicitar.
+            Saldo disponível: 
+            <span className="font-bold"> R$ {saldoDisponivel ?? '0.00'}</span>
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="valor" className="text-right">
-              Valor (R$)
-            </Label>
-            <Input
-              id="valor"
-              type="number"
-              placeholder="Ex: 1500.00"
-              value={valorSolicitado}
-              onChange={e => setValorSolicitado(e.target.value)}
-              className="col-span-3"
-              disabled={isLoading}
-            />
-          </div>
+        <div className="py-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Valor a solicitar
+          </label>
+          <input
+            type="number"
+            value={valorSolicitado}
+            onChange={e => setValorSolicitado(Number(e.target.value))}
+            className="w-full border rounded-md px-3 py-2 focus:ring focus:ring-sky-500"
+            placeholder="Digite o valor"
+          />
         </div>
 
         <DialogFooter>

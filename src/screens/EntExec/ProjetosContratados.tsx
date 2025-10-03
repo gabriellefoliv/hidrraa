@@ -34,7 +34,7 @@ interface ProjetoAprovado {
     }[]
   }
     microbacia?: {
-        Nome: string
+        nome: string
     }
     entidadeexecutora?: {
         CodEntExec: number

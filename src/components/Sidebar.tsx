@@ -85,7 +85,7 @@ export default function SidebarRoutes() {
     ent_del_fin: [
       {
         section: 'Marcos e Evidências',
-        routes: [{ name: 'Análise de Marcos', icon: Workflow, href: '/analise-marcos' }],
+        routes: [{ name: 'Solicitações de Pagamento', icon: Workflow, href: '/solicitacoes-pagamento' }],
       },
     ],
   }

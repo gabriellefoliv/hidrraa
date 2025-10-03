@@ -36,7 +36,7 @@ interface Projeto {
   };
   microbacia: {
     codMicroBacia: number;
-    Nome: string;
+    nome: string;
   };
   entidadeexecutora: {
     codEntExec: number;
@@ -72,7 +72,7 @@ export default function AnaliseMarco() {
           setTiposProjeto(tipos as string[]);
   
           const micros = [
-            ...new Set(res.data.map((p: Projeto) => p.microbacia?.Nome)),
+            ...new Set(res.data.map((p: Projeto) => p.microbacia?.nome)),
           ];
           setMicrobacias(micros.filter(Boolean) as string[]);
   
@@ -87,7 +87,7 @@ export default function AnaliseMarco() {
 
     const projetosFiltrados = projetos.filter((projeto) => {
       const tipoOk = tipoSelecionado ? projeto.tipo_projeto.nome === tipoSelecionado : true;
-      const microOk = microSelecionada ? projeto.microbacia?.Nome === microSelecionada : true;
+      const microOk = microSelecionada ? projeto.microbacia?.nome === microSelecionada : true;
       const entidadeOk = entidadeSelecionada ? projeto.entidadeexecutora?.nome === entidadeSelecionada : true;
 
       const dataSub = new Date(projeto.dataSubmissao);

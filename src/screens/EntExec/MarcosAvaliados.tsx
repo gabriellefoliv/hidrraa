@@ -36,7 +36,7 @@ interface Projeto {
 }
 
 export default function MarcosAvaliados() {
-    const {codProjeto} = useParams()
+    const { codProjeto } = useParams()
     const navigate = useNavigate();
     const [project, setProject] = useState<Projeto | null>(null);
     const [saldo, setSaldo] = useState<number | null>(null);

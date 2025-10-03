@@ -36,7 +36,7 @@ interface Projeto {
   };
   microbacia: {
     codMicroBacia: number;
-    Nome: string;
+    nome: string;
   };
   entidadeexecutora: {
     codEntExec: number;
@@ -61,7 +61,7 @@ export default function SolicitacoesPagamento() {
   const navigate = useNavigate();
   
   useEffect(() => {
-      get('projetos-com-evidencias')
+      get('pagamentos')
         .then((res) => {
           setProjetos(res.data);
   
@@ -72,7 +72,7 @@ export default function SolicitacoesPagamento() {
           setTiposProjeto(tipos as string[]);
   
           const micros = [
-            ...new Set(res.data.map((p: Projeto) => p.microbacia?.Nome)),
+            ...new Set(res.data.map((p: Projeto) => p.microbacia?.nome)),
           ];
           setMicrobacias(micros.filter(Boolean) as string[]);
   
@@ -81,13 +81,13 @@ export default function SolicitacoesPagamento() {
           ];
           setEntidades(entidadesExec.filter(Boolean) as string[]);
         })
-        .catch(() => toast.error('Erro ao carregar projetos avaliados'))
+        .catch(() => toast.error('Erro ao carregar projetos com solicitações'))
         .finally(() => setLoading(false));
     }, []);
 
     const projetosFiltrados = projetos.filter((projeto) => {
       const tipoOk = tipoSelecionado ? projeto.tipo_projeto.nome === tipoSelecionado : true;
-      const microOk = microSelecionada ? projeto.microbacia?.Nome === microSelecionada : true;
+      const microOk = microSelecionada ? projeto.microbacia?.nome === microSelecionada : true;
       const entidadeOk = entidadeSelecionada ? projeto.entidadeexecutora?.nome === entidadeSelecionada : true;
 
       const dataSub = new Date(projeto.dataSubmissao);
@@ -226,13 +226,13 @@ export default function SolicitacoesPagamento() {
       {loading ? (
                 <Loading/>
             ) : projetos.length === 0 ? (
-                <p className="text-center text-gray-500">Nenhum projeto submetido.</p>
+                <p className="text-center text-gray-500">Nenhum projeto com solicitações no momento.</p>
             ) : (
                 <div className="w-full flex flex-col p-4">
                 {projetosFiltrados.map((projeto) => (
                     <ProjetoCard
                         projeto={projeto}
-                        onAnalisarMarco={() => navigate(`/analise-marcos/${projeto.codProjeto}`)}
+                        onSolicitacao={() => navigate(`/solicitacoes-pagamento/${projeto.codProjeto}`)}
                     />
                 ))}
                 </div>

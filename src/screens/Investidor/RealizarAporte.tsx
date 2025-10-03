@@ -78,7 +78,7 @@ const CheckoutForm = ({ onPaymentSuccess, onPaymentError, valor }: CheckoutFormP
 export default function RealizarAportes() {
   const [codInvestidor, setCodInvestidor] = useState<number | null>(null)
   const [bcValor, setBcValor] = useState<number | ''>('')
-  const [mensagem, setMensagem] = useState<string | null>(null)
+  const [, setMensagem] = useState<string | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(false)
   const { user } = useAuth()

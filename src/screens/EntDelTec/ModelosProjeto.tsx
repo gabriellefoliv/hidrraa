@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { get } from "@/lib/api";
 import type { TipoProjeto } from "@/types/modelos";
@@ -6,21 +5,22 @@ import { ArrowRightIcon, Info, ListCheck, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function ModelosProjeto() {
     const [tiposProjeto, setTiposProjeto] = useState<TipoProjeto[]>([])
+    const [busca, setBusca] = useState('') // estado para filtro
     const navigate = useNavigate()
 
     useEffect(() => {
         get('tipos-projeto')
-            .then((response) => {
-                console.log(response.data)
-                setTiposProjeto(response.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+            .then((response) => setTiposProjeto(response.data))
+            .catch((error) => console.error(error))
     }, [])
+
+    // Filtra pelo nome do modelo ou descrição
+    const tiposFiltrados = tiposProjeto.filter(tp =>
+        tp.nome.toLowerCase().includes(busca.toLowerCase()) ||
+        (tp.descricao?.toLowerCase().includes(busca.toLowerCase()) ?? false)
+    )
 
     return (
         <div className='w-full min-h-screen bg-blue-50 p-6'>
@@ -29,23 +29,38 @@ export default function ModelosProjeto() {
                 <h1 className='text-3xl font-bold text-center text-sky-800 mb-6'>Explorar Modelos</h1>
             </div>
             <div className="w-full p-2 flex justify-center">
-                <input className='flex-1 bg-white rounded-bl-md rounded-tl-md p-2 pl-4' placeholder='Buscar modelos de projeto...' />
+                <input
+                    className='flex-1 bg-white rounded-bl-md rounded-tl-md p-2 pl-4'
+                    placeholder='Buscar modelos de projeto...'
+                    value={busca}
+                    onChange={e => setBusca(e.target.value)}
+                />
                 <button className="bg-sky-800 rounded-br-md rounded-tr-md p-2">
                     <Search color="white"/>
                 </button>
             </div>
             <div className="flex justify-center space-x-2">
-                <button className="mt-4 bg-white border text-sky-800 px-4 py-1.5 rounded-md hover:opacity-50 duration-500 transition">Todos</button>
+                <button
+                    className="mt-4 bg-white border text-sky-800 px-4 py-1.5 rounded-md hover:opacity-50 duration-500 transition"
+                    onClick={() => setBusca('')}
+                >
+                    Todos
+                </button>
                 {tiposProjeto.map((tipo) => (
                     <div key={tipo.id}>
-                        <button className="mt-4 bg-sky-800 text-white px-4 py-1.5 rounded-md hover:opacity-50 duration-500 transition">{tipo.nome}</button>
+                        <button
+                            className="mt-4 bg-sky-800 text-white px-4 py-1.5 rounded-md hover:opacity-50 duration-500 transition"
+                            onClick={() => setBusca(tipo.nome)}
+                        >
+                            {tipo.nome}
+                        </button>
                     </div>
                 ))}
             </div>
 
             {/* Listagem de modelos */}
             <div className="mt-8 space-y-6">
-                {tiposProjeto.map((tp) => (
+                {tiposFiltrados.map((tp) => (
                     <div key={tp.id} className="bg-white rounded-lg shadow-md">
                         <div className="bg-sky-800/90 pl-4 p-4 rounded-t-2xl">
                             <h2 className="text-xl font-bold flex items-center text-white">{tp.nome}</h2>
@@ -80,13 +95,12 @@ export default function ModelosProjeto() {
                             effect="expandIcon" icon={ArrowRightIcon} iconPlacement='right'
                             onClick={() => navigate(`/submeter-projeto/${tp.id}`)}
                             className="mx-6 mb-4 bg-sky-800 text-white rounded-md hover:opacity-80 transition"
-                            >
+                        >
                             Usar Modelo
                         </Button>
                     </div>
                 ))}
             </div>
-            
-    </div>
+        </div>
     )
 }

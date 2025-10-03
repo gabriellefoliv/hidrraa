@@ -25,7 +25,7 @@ export interface ProjetoCardProps {
       nome: string;
     };
     microbacia?: {
-      Nome: string;
+      nome: string;
     };
     propriedade?: {
         nome: string;
@@ -43,6 +43,7 @@ export interface ProjetoCardProps {
   mostrarEntidade?: boolean;
   isOpen?: boolean;
   children?: React.ReactNode;
+  onSolicitacao?: () => void;
 }
 
 export function ProjetoCard({
@@ -57,6 +58,7 @@ export function ProjetoCard({
   showDesignar = false,
   onMarcosAvaliados,
   onAnalisarMarco,
+  onSolicitacao,
 }: ProjetoCardProps) {
   return (
     <div
@@ -149,7 +151,7 @@ export function ProjetoCard({
       <div className="flex gap-2 items-center justify-between">
         {projeto.microbacia && (
           <span className="mt-4 inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
-            {projeto.microbacia.Nome}
+            {projeto.microbacia.nome}
           </span>
         )}
 
@@ -217,6 +219,18 @@ export function ProjetoCard({
           className="flex justify-content mt-4 bg-sky-900 text-white hover:bg-sky-600"
         >
           Analisar Evidências do Marco
+        </Button>
+      )}
+
+      {onSolicitacao && (
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onSolicitacao();
+          }}
+          className="flex justify-content mt-4 bg-sky-900 text-white hover:bg-sky-600"
+        >
+          Acessar solicitações de pagamento
         </Button>
       )}
 
