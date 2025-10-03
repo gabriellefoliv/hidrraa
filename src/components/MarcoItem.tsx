@@ -60,7 +60,7 @@ export function MarcoItem({ execucao }: { execucao: ExecucaoMarcoComEvidencias }
           )
         })}
         {execucao.relatorio_gerenciadora.map(rel => {
-          const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
+          const url = `https://api-hidrraa.onrender.com/uploads/${rel.caminhoArquivo}`
           const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(rel.caminhoArquivo)
 
           return (

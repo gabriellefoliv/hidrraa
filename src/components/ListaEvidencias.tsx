@@ -171,7 +171,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {relatorios.map((rel) => {
-                      const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
+                      const url = `https://api-hidrraa.onrender.com/uploads/${rel.caminhoArquivo}`
                       return (
                         <li
                           key={rel.codRelGer}
