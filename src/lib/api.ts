@@ -6,7 +6,7 @@ interface GenericData {
 }
 
 export const api = axios.create({
-    baseURL: 'https://api-hidrraa.onrender.com/api'
+    baseURL: 'http://localhost:3000/api'
 })
 
 // Serviços básicos

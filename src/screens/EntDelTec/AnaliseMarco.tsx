@@ -24,6 +24,7 @@ interface Projeto {
   CodMicroBacia: number;
   mediaPonderada: number | null;
   dataSubmissao: string;
+  caminhoArquivo: string;
   tipo_projeto: {
     codTipoProjeto: number;
     nome: string;

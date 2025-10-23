@@ -12,6 +12,7 @@ export interface ProjetoSalvo {
   acoes: string
   cronograma: string
   orcamento: number
+  caminhoArquivo?: string | null
   codPropriedade: number
   CodMicroBacia: number
   tipo_projeto: {

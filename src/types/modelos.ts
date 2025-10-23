@@ -34,6 +34,7 @@ export interface ProjetoSalvo {
   orcamento: number
   codPropriedade: number
   CodMicroBacia: number
+  caminhoArquivo: string
   tipo_projeto: {
     codTipoProjeto: number
     nome: string

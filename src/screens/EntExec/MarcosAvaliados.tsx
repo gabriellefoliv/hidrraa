@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, Clock, FileText, Calendar, DollarSign } from 'lucide-react'; 
+import { CheckCircle, XCircle, Clock, FileText, Calendar, DollarSign, FileDown } from 'lucide-react'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '@/lib/api';
 import { toast } from 'sonner';
 import { Loading } from '@/components/Loading';
 import { ImagemModal } from '@/components/ImagemModal';
 import { BuscarFinanciamentoModal } from '@/components/BuscarFinanciamentoModal';
+import { Button } from '@/components/ui/button';
 
 interface Projeto {
     titulo: string;
@@ -14,6 +15,7 @@ interface Projeto {
     cronograma: string | null; 
     orcamento: number | null; 
     dataSubmissao?: string | null; 
+    caminhoArquivo: string;
     execucao_marco: {
         codExecucaoMarco: number;
         descricao: string | null; 
@@ -125,6 +127,22 @@ export default function MarcosAvaliados() {
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Cronograma:</strong> {project.cronograma || 'Não informado'}</p>
                     <p className="flex items-center"><FileText size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Ações:</strong> {project.acoes || 'Não informado'}</p>
                     <p className="flex items-center"><DollarSign size={18} className="mr-2 text-sky-500" /> <strong className="text-sky-700 mr-2">Orçamento:</strong> {project.orcamento || 'Não informado'}</p>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        asChild 
+                        onClick={(e) => e.stopPropagation()} 
+                        >
+                        <a
+                            href={`/uploads/${project.caminhoArquivo}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sky-700 hover:text-sky-900"
+                        >
+                            <FileDown className="w-4 h-4 mr-2" />
+                            Ver Anexo
+                        </a>
+                        </Button>
                 </div>
             </div>
 
