@@ -256,7 +256,13 @@ export default function MarcosAvaliados() {
                     {/* Botões Condicionais */}
                     <div className="mt-5 flex flex-col sm:flex-row gap-3">
                         {marco.bc_statusValidacaoCBH === "APROVADO" && (
-                            <BuscarFinanciamentoModal bc_valorPagto={project.orcamento} saldoDisponivel={saldo} codExecucaoMarco={marco.codExecucaoMarco} onSubmitSuccess={() => {}} />
+                            <BuscarFinanciamentoModal {...({
+                                codProjeto: Number(codProjeto),
+                                bc_valorPagto: project.orcamento,
+                                saldoDisponivel: saldo ?? 0,
+                                codExecucaoMarco: marco.codExecucaoMarco,
+                                onSubmitSuccess: () => {},
+                            } as any)} />
                         )}
                         {marco.bc_statusValidacaoCBH === "PENDENTE" && (
                         <button onClick={() => navigate(`/executar-marcos/${codProjeto}`)} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform">
