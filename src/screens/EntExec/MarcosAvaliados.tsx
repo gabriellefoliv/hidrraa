@@ -177,7 +177,7 @@ export default function MarcosAvaliados() {
                     {marco.evidencia_apresentada.length > 0 ? (
                         <ul className="list-disc list-inside text-gray-600 space-y-2">
                         {marco.evidencia_apresentada.map((ev) => {
-                            const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
+                            const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                             const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
 
                             return (
@@ -216,7 +216,7 @@ export default function MarcosAvaliados() {
                     {marco.relatorio_gerenciadora.length > 0 ? (
                         <ul className="list-disc list-inside text-gray-600 space-y-2 mb-2 mt-2">
                         {marco.relatorio_gerenciadora.map((ev) => {
-                            const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
+                            const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                             const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
 
                             return (

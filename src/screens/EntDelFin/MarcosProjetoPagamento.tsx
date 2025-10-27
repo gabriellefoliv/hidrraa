@@ -29,6 +29,7 @@ interface Projeto {
     dataConclusaoEfetiva?: string | null
     descrDetAjustes?: string | null
     bc_statusValidacaoCBH?: string | null
+    caminhoArquivo: string | null
     evidencia_apresentada: {
       codEvidenciaApresentada: number
       caminhoArquivo: string
@@ -137,6 +138,11 @@ export default function MarcosProjetoPagamento() {
     }
   }
 
+  const getFileName = (filePath: string | null | undefined) => {
+      if (!filePath) return 'Documento sem nome';
+      return filePath.split(/[\\/]/).pop() || filePath;
+  }
+
   return (
     <div className="w-full min-h-screen bg-sky-50 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
@@ -225,7 +231,7 @@ export default function MarcosProjetoPagamento() {
                   {marco.evidencia_apresentada.length > 0 ? (
                     <ul className="list-disc list-inside text-gray-600 space-y-2">
                       {marco.evidencia_apresentada.map(ev => {
-                        const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
+                        const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                         const isImage =
                           /\.(jpg|jpeg|png|gif|webp)$/i.test(
                             ev.caminhoArquivo,
@@ -269,7 +275,7 @@ export default function MarcosProjetoPagamento() {
                   {marco.relatorio_gerenciadora.length > 0 ? (
                     <ul className="list-disc list-inside text-gray-600 space-y-2 mb-2 mt-2">
                       {marco.relatorio_gerenciadora.map(ev => {
-                        const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
+                        const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                         const isImage =
                           /\.(jpg|jpeg|png|gif|webp)$/i.test(
                             ev.caminhoArquivo,
@@ -311,13 +317,31 @@ export default function MarcosProjetoPagamento() {
                     </p>
                   )}
 
-                  <h4 className="text-lg font-semibold text-sky-600 mb-3 mt-4">
+                  <h4 className="text-lg font-semibold text-sky-600 mt-6 mb-3">
+                    Documento da Entidade Delegatária Técnica:
+                  </h4>
+                  {marco.caminhoArquivo && (
+                      <div className="flex items-center gap-2">
+                          <Paperclip className="w-4 h-4 text-blue-600" />
+                          <a
+                              href={`http://localhost:3000/uploads/${marco.caminhoArquivo}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                              title="Ver relatório de validação"
+                          >
+                              Abrir documento
+                          </a>
+                      </div>
+                  )}
+
+                  <h4 className="text-lg font-semibold text-sky-600 mb-3 mt-8">
                     Notas Fiscais (Comprovação de Pagamento):
                   </h4>
                   {marco.pagto_servico && marco.pagto_servico.length > 0 ? (
                     <ul className="space-y-2">
                       {marco.pagto_servico.map(nf => {
-                        const url = `https://api-hidrraa.onrender.com/uploads/${nf.docNF}`
+                        const url = `http://localhost:3000/uploads/${nf.docNF}`
                         const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(
                           nf.docNF,
                         )
@@ -363,9 +387,10 @@ export default function MarcosProjetoPagamento() {
                     </p>
                   )}
 
+                 
                   {marco.pagto_marco_concluido &&
                   marco.pagto_marco_concluido.length > 0 ? (
-                    <div className="mt-4">
+                    <div className="mt-8">
                       <h4 className="text-lg font-semibold text-sky-600 mb-3">
                         Pagamentos ativos:
                       </h4>

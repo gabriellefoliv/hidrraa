@@ -115,7 +115,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {evidencias.map((ev) => {
-                      const url = `https://api-hidrraa.onrender.com/uploads/${ev.caminhoArquivo}`
+                      const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
                       const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
 
                       return (
@@ -171,7 +171,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {relatorios.map((rel) => {
-                      const url = `https://api-hidrraa.onrender.com/uploads/${rel.caminhoArquivo}`
+                      const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
                       return (
                         <li
                           key={rel.codRelGer}

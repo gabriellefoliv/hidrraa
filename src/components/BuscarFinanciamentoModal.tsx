@@ -143,7 +143,7 @@ export function BuscarFinanciamentoModal({
     } catch (error: any) {
       const errorMsg =
         error.response?.data?.error || 'Erro ao enviar solicitação.'
-      toast.error(errorMsg)
+      // toast.error(errorMsg)
     } finally {
       setIsLoading(false)
     }
