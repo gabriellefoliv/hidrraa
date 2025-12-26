@@ -12,7 +12,7 @@ import {
 import { toast } from 'sonner'
 import { Header } from '@/components/Header'
 
-const stripePromise = loadStripe("pk_test_51RVtXFP35163kb4TT9w9cmKxDCFE1MwzYlsTZv9ikYzmvSOp90U1GfE5Kx4K1odHAtYUCmr2kVtXSGZBMW8qToBa00MSAUJyql")
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
 
 type CheckoutFormProps = {
   onPaymentSuccess: (message: string) => void
@@ -36,40 +36,35 @@ const CheckoutForm = ({ onPaymentSuccess, onPaymentError, valor }: CheckoutFormP
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
-      redirect: 'if_required', 
+      redirect: 'if_required',
     })
+
+    setIsProcessing(false)
 
     if (error) {
       onPaymentError(error.message || 'Ocorreu um erro ao processar o pagamento.')
     } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-      try {
-        const response = await api.post('/aportes', {
-          bc_valor: Number(valor),
-        })
-        onPaymentSuccess(response.data.aporteId)
-        toast.success(`Aporte realizado com sucesso!`)
-      } catch (dbError: any) {
-        const mensagemErro = dbError.response?.data?.error || 'Pagamento bem-sucedido, mas falha ao registrar o aporte.'
-        onPaymentError(mensagemErro)
-      }
+
+      toast.success(`Pagamento recebido! Processando seu aporte...`)
+
+      onPaymentSuccess('Pagamento concluído com sucesso.')
+
     } else {
       onPaymentError('Ocorreu um erro inesperado durante o pagamento.')
     }
-
-    setIsProcessing(false)
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-        <PaymentElement id="payment-element" />
-        <button
-            disabled={isProcessing || !stripe || !elements}
-            className="w-full bg-sky-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
-        >
-            <span>
-                {isProcessing ? 'Processando...' : `Pagar R$ ${valor.toFixed(2)}`}
-            </span>
-        </button>
+      <PaymentElement id="payment-element" />
+      <button
+        disabled={isProcessing || !stripe || !elements}
+        className="w-full bg-sky-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
+      >
+        <span>
+          {isProcessing ? 'Processando...' : `Pagar R$ ${valor.toFixed(2)}`}
+        </span>
+      </button>
     </form>
   )
 }
@@ -128,13 +123,13 @@ export default function RealizarAportes() {
       setCarregando(false)
     }
   }
-  
+
   const handlePaymentSuccess = (msg: string) => {
     setMensagem(msg)
     setClientSecret(null)
     setBcValor('')
   }
-  
+
   const handlePaymentError = (errMsg: string) => {
     setErro(errMsg)
   }
@@ -147,7 +142,7 @@ export default function RealizarAportes() {
         title="Realizar Aporte"
         description="Realize um aporte para apoiar projetos da AGEVAP."
       />
-      
+
       {!clientSecret ? (
         <form onSubmit={(e) => { e.preventDefault(); handleInitiatePayment(); }} className="space-y-4">
           <div>
@@ -170,7 +165,7 @@ export default function RealizarAportes() {
             />
           </div>
 
-          <button 
+          <button
             type="submit"
             disabled={carregando || !bcValor}
             className="w-full bg-sky-950 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
@@ -180,26 +175,22 @@ export default function RealizarAportes() {
         </form>
       ) : (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
-          <CheckoutForm 
-            onPaymentSuccess={handlePaymentSuccess} 
+          <CheckoutForm
+            onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
             valor={Number(bcValor)}
           />
         </Elements>
       )}
-
-      {/* {mensagem && (
-        <p className="mt-4 text-green-600 font-medium text-center">{mensagem}</p>
-      )} */}
       {erro && (
         <div className="mt-4 text-red-600 font-medium text-center space-y-2">
-            <p>{erro}</p>
-            <button 
-                onClick={() => { setErro(null); setClientSecret(null); }} 
-                className="text-sm text-sky-900 hover:underline"
-            >
-                Tentar novamente
-            </button>
+          <p>{erro}</p>
+          <button
+            onClick={() => { setErro(null); setClientSecret(null); }}
+            className="text-sm text-sky-900 hover:underline"
+          >
+            Tentar novamente
+          </button>
         </div>
       )}
     </div>

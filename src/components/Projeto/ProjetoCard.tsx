@@ -9,7 +9,7 @@ export interface ProjetoCardProps {
     acoes: string;
     cronograma: string;
     orcamento: number;
-    caminhoArquivo?: string | null; // ADICIONADO AQUI
+    caminhoArquivo?: string | null; 
     dataSubmissao?: string;
     tipo_projeto: {
       nome: string;
@@ -66,7 +66,6 @@ export function ProjetoCard({
       onClick={onClick}
       className="mb-4 group border border-slate-200 rounded-2xl p-6 bg-gradient-to-br from-sky-50 to-white shadow-md hover:shadow-lg transition cursor-pointer"
     >
-      {/* Header */}
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-2xl font-bold text-sky-900">{projeto.titulo}</h2>
@@ -75,7 +74,6 @@ export function ProjetoCard({
           </p>
         </div>
         
-        {/* Bloco da direita no Header */}
         <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
           {projeto.dataSubmissao && (
               <p className="text-xs text-slate-500">
@@ -84,16 +82,15 @@ export function ProjetoCard({
               </p>
           )}
 
-          {/* BOTÃO DE DOWNLOAD ADICIONADO */}
           {projeto.caminhoArquivo && (
             <Button
               variant="outline"
               size="sm"
-              asChild // Permite que o Button renderize como um link 'a'
-              onClick={(e) => e.stopPropagation()} // Impede o clique no card
+              asChild
+              onClick={(e) => e.stopPropagation()}
             >
               <a
-                href={`/uploads/${projeto.caminhoArquivo}`}
+                href={`http://localhost:3000/uploads/${projeto.caminhoArquivo}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sky-700 hover:text-sky-900"
@@ -103,7 +100,6 @@ export function ProjetoCard({
               </a>
             </Button>
           )}
-          {/* FIM DA ADIÇÃO */}
         </div>
       </div>
 
