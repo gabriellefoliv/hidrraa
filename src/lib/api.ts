@@ -1,3 +1,4 @@
+import { env } from '@/types/env'
 import axios from 'axios'
 
 interface GenericData {
@@ -6,17 +7,17 @@ interface GenericData {
 }
 
 export const api = axios.create({
-    baseURL: 'http://localhost:3000/api'
+    baseURL: env.API_URL
 })
 
 // Serviços básicos
 
 export const createSession = async (email: string, senha: string) => {
-    return await api.post('/login', {email, senha})
+    return await api.post('/login', { email, senha })
 }
 
 export const get = async (table: string) => {
-    return await api.get(`/${table}`)   
+    return await api.get(`/${table}`)
 }
 
 export const getById = async (table: string, id: number) => {
@@ -25,12 +26,12 @@ export const getById = async (table: string, id: number) => {
 
 export const create = async (table: string, data: GenericData) => {
     console.log(data)
-    return await api.post(`/${table}`, {...data})
+    return await api.post(`/${table}`, { ...data })
 }
 
 export const update = async (table: string, id: number, data: GenericData) => {
     console.log(id, data)
-    return await api.put(`/${table}/${id}`, {...data})
+    return await api.put(`/${table}/${id}`, { ...data })
 }
 
 export const remove = async (table: string, id: number) => {

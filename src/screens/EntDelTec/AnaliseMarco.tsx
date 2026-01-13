@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { get } from '@/lib/api'
+import { api } from '@/lib/api'
 import { ProjetoCard } from '@/components/Projeto/ProjetoCard'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -42,7 +42,7 @@ interface Projeto {
   entidadeexecutora: {
     codEntExec: number;
     nome: string;
-    
+
   };
 }
 
@@ -60,50 +60,54 @@ export default function AnaliseMarco() {
   const [entidades, setEntidades] = useState<string[]>([]);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-      get('projetos-com-evidencias')
-        .then((res) => {
-          setProjetos(res.data);
-  
-          // Preencher listas únicas para filtros
-          const tipos = [
-            ...new Set(res.data.map((p: Projeto) => p.tipo_projeto.nome)),
-          ];
-          setTiposProjeto(tipos as string[]);
-  
-          const micros = [
-            ...new Set(res.data.map((p: Projeto) => p.microbacia?.nome)),
-          ];
-          setMicrobacias(micros.filter(Boolean) as string[]);
-  
-          const entidadesExec = [
-            ...new Set(res.data.map((p: Projeto) => p.entidadeexecutora?.nome)),
-          ];
-          setEntidades(entidadesExec.filter(Boolean) as string[]);
-        })
-        .catch(() => toast.error('Erro ao carregar projetos avaliados'))
-        .finally(() => setLoading(false));
-    }, []);
+    console.log('AnaliseMarco mounted');
+    api.get('/projetos/com-evidencias')
+      .then((res) => {
+        console.log('Projects loaded:', res.data);
+        setProjetos(res.data);
 
-    const projetosFiltrados = projetos.filter((projeto) => {
-      const tipoOk = tipoSelecionado ? projeto.tipo_projeto.nome === tipoSelecionado : true;
-      const microOk = microSelecionada ? projeto.microbacia?.nome === microSelecionada : true;
-      const entidadeOk = entidadeSelecionada ? projeto.entidadeexecutora?.nome === entidadeSelecionada : true;
+        const tipos = [
+          ...new Set(res.data.map((p: Projeto) => p.tipo_projeto.nome)),
+        ];
+        setTiposProjeto(tipos as string[]);
 
-      const dataSub = new Date(projeto.dataSubmissao);
-      const dataOk = date
-        ? date.to
-          ? date.from && dataSub >= date.from && dataSub <= date.to
-          : date.from && dataSub.toDateString() === date.from.toDateString()
-        : true;
+        const micros = [
+          ...new Set(res.data.map((p: Projeto) => p.microbacia?.nome)),
+        ];
+        setMicrobacias(micros.filter(Boolean) as string[]);
 
-      return tipoOk && microOk && entidadeOk && dataOk;
-    });
+        const entidadesExec = [
+          ...new Set(res.data.map((p: Projeto) => p.entidadeexecutora?.nome)),
+        ];
+        setEntidades(entidadesExec.filter(Boolean) as string[]);
+      })
+      .catch((err) => {
+        console.error('Error loading projects:', err);
+        toast.error('Erro ao carregar projetos avaliados (ver console)');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const projetosFiltrados = projetos.filter((projeto) => {
+    const tipoOk = tipoSelecionado ? projeto.tipo_projeto.nome === tipoSelecionado : true;
+    const microOk = microSelecionada ? projeto.microbacia?.nome === microSelecionada : true;
+    const entidadeOk = entidadeSelecionada ? projeto.entidadeexecutora?.nome === entidadeSelecionada : true;
+
+    const dataSub = new Date(projeto.dataSubmissao);
+    const dataOk = date
+      ? date.to
+        ? date.from && dataSub >= date.from && dataSub <= date.to
+        : date.from && dataSub.toDateString() === date.from.toDateString()
+      : true;
+
+    return tipoOk && microOk && entidadeOk && dataOk;
+  });
 
   return (
     <div className="p-6 w-full mx-auto">
-      <Header 
+      <Header
         title="Análise de Marcos"
         description="Veja projetos com evidências de marcos submetidas."
       />
@@ -225,19 +229,19 @@ export default function AnaliseMarco() {
       </div>
 
       {loading ? (
-                <Loading/>
-            ) : projetos.length === 0 ? (
-                <p className="text-center text-gray-500">Nenhum projeto submetido.</p>
-            ) : (
-                <div className="w-full flex flex-col p-4">
-                {projetosFiltrados.map((projeto) => (
-                    <ProjetoCard
-                        projeto={projeto}
-                        onAnalisarMarco={() => navigate(`/analise-marcos/${projeto.codProjeto}`)}
-                    />
-                ))}
-                </div>
-            )}
+        <Loading />
+      ) : projetos.length === 0 ? (
+        <p className="text-center text-gray-500">Nenhum projeto submetido.</p>
+      ) : (
+        <div className="w-full flex flex-col p-4">
+          {projetosFiltrados.map((projeto) => (
+            <ProjetoCard
+              projeto={projeto}
+              onAnalisarMarco={() => navigate(`/analise-marcos/${projeto.codProjeto}`)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

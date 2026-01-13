@@ -26,14 +26,12 @@ export function DesignarEntidadeModal({ isOpen, onClose, codProjeto, onConfirm }
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        // Busca as entidades quando o modal for aberto
         if (isOpen) {
             const fetchEntidades = async () => {
                 try {
-                    // Substitua pelos endpoints corretos da sua API
                     const [resExecutoras, resGerenciadoras] = await Promise.all([
-                        api.get("/entExecs"),
-                        api.get("/entGers"),
+                        api.get("/entExec"),
+                        api.get("/entGer"),
                     ]);
                     setEntidadesExecutoras(resExecutoras.data);
                     setEntidadesGerenciadoras(resGerenciadoras.data);
@@ -56,8 +54,7 @@ export function DesignarEntidadeModal({ isOpen, onClose, codProjeto, onConfirm }
         await onConfirm(codProjeto, Number(selectedExecutora), Number(selectedGerenciadora));
         setIsSubmitting(false);
     };
-    
-    // Função para lidar com a mudança de estado do Dialog (aberto/fechado)
+
     const handleOpenChange = (open: boolean) => {
         if (!open) {
             onClose();
@@ -104,7 +101,7 @@ export function DesignarEntidadeModal({ isOpen, onClose, codProjeto, onConfirm }
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                         <Button type="button" variant="outline">
+                        <Button type="button" variant="outline">
                             Cancelar
                         </Button>
                     </DialogClose>

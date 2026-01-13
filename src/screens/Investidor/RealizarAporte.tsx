@@ -11,8 +11,9 @@ import {
 } from '@stripe/react-stripe-js'
 import { toast } from 'sonner'
 import { Header } from '@/components/Header'
+import { env } from '@/types/env'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
+const stripePromise = loadStripe(env.STRIPE_PUBLISHABLE_KEY)
 
 type CheckoutFormProps = {
   onPaymentSuccess: (message: string) => void

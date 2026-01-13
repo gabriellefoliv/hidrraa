@@ -5,14 +5,28 @@ import { toast } from "sonner"
 import { SubmeterEvidenciasModal } from "./SubmeterEvidenciasModal"
 
 interface UploadEvidenciaFormProps {
-    codProjeto: number
-    codExecucaoMarco: number
-    onUploadSuccess?: () => void
-    bloqueado?: boolean
+  codProjeto: number
+  codExecucaoMarco: number
+  evidenciasDemandadas: {
+    codEvidenciaDemandada: number
+    descricao: string
+    tipoArquivo: string
+  }[]
+  onUploadSuccess?: () => void
+  bloqueado?: boolean
 }
 
-export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSuccess, bloqueado }: UploadEvidenciaFormProps) {
+export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, evidenciasDemandadas, onUploadSuccess, bloqueado }: UploadEvidenciaFormProps) {
   const [file, setFile] = useState<File | null>(null)
+
+  const [codEvidenciaDemandada, setCodEvidenciaDemandada] = useState<number | string>('')
+
+  useEffect(() => {
+    if (evidenciasDemandadas.length > 0) {
+      setCodEvidenciaDemandada(evidenciasDemandadas[0].codEvidenciaDemandada)
+    }
+  }, [evidenciasDemandadas])
+
   const [tipo, setTipo] = useState<'fotos' | 'documentos'>('fotos')
   const [dragOver, setDragOver] = useState(false)
   const [evidenciasExistentes, setEvidenciasExistentes] = useState<number>(0)
@@ -23,7 +37,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
   const fetchEvidencias = async () => {
     try {
       const res = await api.get(`/evidencias/${codProjeto}/${codExecucaoMarco}`)
-      setEvidenciasExistentes(res.data.length) // Assumindo que o backend retorna array
+      setEvidenciasExistentes(res.data.evidencia_apresentada?.length || 0)
     } catch {
       setEvidenciasExistentes(0)
     }
@@ -33,17 +47,16 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
     fetchEvidencias()
   }, [codProjeto, codExecucaoMarco])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSave = async (e:any) => {
+  const handleSave = async (e: any) => {
     e.preventDefault()
     console.log({ codProjeto, codExecucaoMarco, tipo, file })
 
-    if (!codProjeto || !codExecucaoMarco || !file) {
+    if (!codProjeto || !codExecucaoMarco || !file || !codEvidenciaDemandada) {
       toast.error('Preencha todos os campos antes de enviar a evidência.')
-        return
+      return
     }
 
-    if (file.size > 10 * 1024 * 1024) { 
+    if (file.size > 10 * 1024 * 1024) {
       toast.error('O arquivo deve ser menor que 10MB.')
       return
     }
@@ -51,9 +64,9 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
     const form = new FormData()
     form.append('codProjeto', codProjeto.toString())
     form.append('codExecucaoMarco', codExecucaoMarco.toString())
-    form.append('codEvidenciaDemandada', '1') 
+    form.append('codEvidenciaDemandada', codEvidenciaDemandada.toString())
     form.append('tipo', tipo)
-    
+
     if (file) {
       form.append('file', file)
     }
@@ -90,6 +103,10 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
       }
 
       if (file) {
+        if (!codEvidenciaDemandada) {
+          toast.error('Selecione o tipo de evidência.')
+          return
+        }
         if (file.size > 10 * 1024 * 1024) {
           toast.error('O arquivo deve ser menor que 10MB.')
           return
@@ -98,7 +115,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
         const form = new FormData()
         form.append('codProjeto', codProjeto.toString())
         form.append('codExecucaoMarco', codExecucaoMarco.toString())
-        form.append('codEvidenciaDemandada', '1') 
+        form.append('codEvidenciaDemandada', codEvidenciaDemandada.toString())
         form.append('tipo', tipo)
         form.append('file', file)
 
@@ -111,7 +128,7 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
       toast.success('Evidências submetidas com sucesso!')
       onUploadSuccess?.()
       window.location.reload()
-      
+
     } catch (error) {
       console.error('[SUBMETER] Erro ao submeter projeto:', error)
       toast.error('Erro ao submeter projeto. Verifique os dados e tente novamente.')
@@ -119,28 +136,42 @@ export function UploadEvidenciaForm({ codProjeto, codExecucaoMarco, onUploadSucc
   }
 
 
-    if (bloqueado) {
-      return (
-        <p className="text-sm text-gray-500 italic mt-2">
-          Esse marco já foi concluído. O envio de evidências está desabilitado.
-        </p>
-      )
-    }
+  if (bloqueado) {
+    return (
+      <p className="text-sm text-gray-500 italic mt-2">
+        Esse marco já foi concluído. O envio de evidências está desabilitado.
+      </p>
+    )
+  }
 
   return (
     <form onSubmit={handleSave} className="mt-2 space-y-2">
-      <select value={tipo} onChange={e => setTipo(e.target.value as 'fotos' | 'documentos')} className="border rounded px-2 py-1">
-        <option value="fotos">Fotos</option>
-        <option value="documentos">Documentos</option>
-      </select>
+      <div className="flex gap-2">
+        <select
+          value={codEvidenciaDemandada}
+          onChange={e => setCodEvidenciaDemandada(Number(e.target.value))}
+          className="border rounded px-2 py-1 flex-1"
+        >
+          <option value="">Selecione a evidência...</option>
+          {evidenciasDemandadas.map(ev => (
+            <option key={ev.codEvidenciaDemandada} value={ev.codEvidenciaDemandada}>
+              {ev.descricao} ({ev.tipoArquivo})
+            </option>
+          ))}
+        </select>
+
+        <select value={tipo} onChange={e => setTipo(e.target.value as 'fotos' | 'documentos')} className="border rounded px-2 py-1 w-32">
+          <option value="fotos">Fotos</option>
+          <option value="documentos">Docs</option>
+        </select>
+      </div>
 
       {/* <input type="file" onChange={e => setFile(e.target.files?.[0] ?? null)} className="block" /> */}
 
       {/* Caixa de drag and drop */}
       <div
-        className={`border-2 border-dashed p-6 rounded-xl text-center cursor-pointer transition-all ${
-          dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-        }`}
+        className={`border-2 border-dashed p-6 rounded-xl text-center cursor-pointer transition-all ${dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+          }`}
         onDragOver={(e) => {
           e.preventDefault()
           setDragOver(true)

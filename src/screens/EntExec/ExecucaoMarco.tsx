@@ -18,6 +18,11 @@ type ExecucaoMarcoType = {
       descricao: string;
       dataConclusaoPrevista: string;
       dataConclusaoEfetiva?: string | null;
+      evidenciasDemandadas?: {
+        codEvidenciaDemandada: number;
+        descricao: string;
+        tipoArquivo: string;
+      }[];
     }[];
   };
 };
@@ -95,6 +100,7 @@ export default function ExecucaoMarco() {
                 <UploadEvidenciaForm
                   codProjeto={projeto.codProjeto}
                   codExecucaoMarco={marco.codExecucaoMarco}
+                  evidenciasDemandadas={marco.evidenciasDemandadas || []}
                   onUploadSuccess={() => triggerRefresh(marco.codExecucaoMarco)}
                   bloqueado={isConcluido}
                 />

@@ -24,6 +24,8 @@ export type ExecucaoMarcoComEvidencias = {
   descricao: string
   dataConclusaoEfetiva: string | null
   bc_statusValidacaoCBH: 'APROVADO' | 'REPROVADO' | 'PENDENTE' | null
+  caminhoArquivo: string | null
+  descrDetAjustes: string | null
   evidencia_apresentada: Evidencia[]
   relatorio_gerenciadora: Relatorio[]
 }
@@ -37,7 +39,7 @@ export default function AvaliacaoEvidencias() {
     if (codProjeto) {
       setLoading(true)
       api
-        .get(`/marcos/${codProjeto}/submetidos`)
+        .get(`/marcos/${codProjeto}/completos`)
         .then(res => setExecucoes(res.data))
         .catch(() => toast.error('Erro ao carregar evidências'))
         .finally(() => setLoading(false))
@@ -49,7 +51,7 @@ export default function AvaliacaoEvidencias() {
 
   return (
     <div className="w-full mx-auto bg-white p-6 rounded-2xl shadow">
-      <Header 
+      <Header
         title="Validação de Evidências"
         description="Valide as evidências submetidas para os marcos do projeto."
       />

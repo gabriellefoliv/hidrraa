@@ -16,6 +16,7 @@ import { Loading } from '@/components/Loading'
 import { ImagemModal } from '@/components/ImagemModal'
 import { EnviarPagamentoModal } from '@/components/EnviarPagamentoModal'
 import { AlocarRecursoModal } from '@/components/AlocarRecursoModal'
+import { env } from '@/types/env'
 
 interface Projeto {
   titulo: string
@@ -138,7 +139,7 @@ export default function MarcosProjetoPagamento() {
     }
   }
 
-  const getStatusStyle = (status: string | undefined | null): string => { // Aceita null
+  const getStatusStyle = (status: string | undefined | null): string => {
     switch (status) {
       case 'APROVADO':
         return 'bg-green-100 text-green-800 border-green-300'
@@ -151,7 +152,7 @@ export default function MarcosProjetoPagamento() {
     }
   }
 
-  const getStatusIcon = (status: string | undefined | null): React.ReactNode => { // Aceita null
+  const getStatusIcon = (status: string | undefined | null): React.ReactNode => {
     switch (status) {
       case 'APROVADO':
         return <CheckCircle size={20} className="inline-block mr-2" />
@@ -171,7 +172,7 @@ export default function MarcosProjetoPagamento() {
 
   const getUploadUrl = (relativePath: string | null | undefined): string => {
     if (!relativePath) return "#";
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+    const baseUrl = env.API_BASE_URL;
     const cleanRelativePath = relativePath.startsWith('/') || relativePath.startsWith('\\')
       ? relativePath.substring(1)
       : relativePath;
@@ -182,7 +183,6 @@ export default function MarcosProjetoPagamento() {
   return (
     <div className="w-full min-h-screen bg-sky-50 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="mx-auto bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl">
-        {/* Cabeçalho do Projeto */}
         <div className="bg-sky-950 p-6 sm:p-8 text-white rounded-t-xl">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2">
             {project.titulo || "Projeto sem título"}
@@ -472,7 +472,7 @@ export default function MarcosProjetoPagamento() {
                             <div className="w-full sm:w-auto flex justify-end">
                               {pgto.transacoes && pgto.transacoes.length > 0 && pgto.transacoes[0].hash ? (
                                 <a
-                                  href={`https://hashscan.io/testnet/topic/${process.env.HEDERA_TOPIC_ID}`}
+                                  href={`https://hashscan.io/testnet/topic/${env.NEXT_PUBLIC_HEDERA_TOPIC_ID}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="inline-flex items-center gap-1 bg-teal-100 text-teal-800 text-xs font-semibold px-3 py-1 rounded-full border border-teal-300 hover:bg-teal-200 transition-colors"

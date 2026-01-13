@@ -3,10 +3,11 @@ import { toast } from 'sonner'
 import { api } from '@/lib/api'
 import { ImagemModal } from '@/components/ImagemModal'
 import type { ExecucaoMarcoComEvidencias } from '../screens/EntDelTec/AvaliacaoEvidencias'
-import { useState, useRef } from 'react' 
-import { UploadCloud, Paperclip } from 'lucide-react' 
-import { Label } from '@/components/ui/label' 
-import { Button } from '@/components/ui/button' 
+import { useState, useRef } from 'react'
+import { UploadCloud, Paperclip } from 'lucide-react'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { env } from '@/types/env'
 
 type FormValues = {
   status: 'APROVADO' | 'REPROVADO' | 'PENDENTE'
@@ -41,7 +42,7 @@ export function MarcoItem({
       })
       toast.success(`Marco ${execucao.codExecucaoMarco} validado com sucesso!`)
       reset()
-      setRelatorioFile(null) 
+      setRelatorioFile(null)
       window.location.reload()
     } catch (error: any) {
       const errorMsg =
@@ -62,13 +63,13 @@ export function MarcoItem({
             Relatório de Validação Anexado:
           </Label>
           <a
-            href={`http://localhost:3000/uploads/${execucao.caminhoArquivo}`}
+            href={env.API_BASE_URL + `/uploads/${execucao.caminhoArquivo}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 underline flex items-center gap-1 text-sm"
           >
             <Paperclip className="w-4 h-4" />
-            {execucao.caminhoArquivo.split(/[\\/]/).pop()} {/* Mostra só o nome */}
+            {execucao.caminhoArquivo.split(/[\\/]/).pop()}
           </a>
         </div>
       )}
@@ -77,7 +78,7 @@ export function MarcoItem({
       <h3 className="font-semibold text-gray-700 mb-1">Evidências:</h3>
       <ul className="space-y-2 mb-4">
         {execucao.evidencia_apresentada.map(evidencia => {
-          const url = `http://localhost:3000/uploads/${evidencia.caminhoArquivo}`
+          const url = env.API_BASE_URL + `/uploads/${evidencia.caminhoArquivo}`
           const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(
             evidencia.caminhoArquivo,
           )
@@ -107,7 +108,7 @@ export function MarcoItem({
           )
         })}
         {execucao.relatorio_gerenciadora.map(rel => {
-          const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
+          const url = env.API_BASE_URL + `/uploads/${rel.caminhoArquivo}`
           const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(rel.caminhoArquivo)
 
           return (
@@ -135,7 +136,7 @@ export function MarcoItem({
         })}
       </ul>
 
-      {execucao.bc_statusValidacaoCBH && execucao.bc_statusValidacaoCBH !== 'PENDENTE_VALIDACAO' ? (
+      {execucao.bc_statusValidacaoCBH && execucao.bc_statusValidacaoCBH !== 'PENDENTE' ? (
         <div className="mt-2 p-3 bg-indigo-50 border border-indigo-200 rounded-md">
           <span className="font-semibold text-sky-800">Status da validação:</span>{' '}
           <span className="font-medium text-sky-700">{execucao.bc_statusValidacaoCBH}</span>
@@ -183,7 +184,7 @@ export function MarcoItem({
               Anexar Relatório de Validação
             </Label>
             <label
-              htmlFor={`file-input-${execucao.codExecucaoMarco}`} 
+              htmlFor={`file-input-${execucao.codExecucaoMarco}`}
               className="flex items-center gap-2 p-3 border-2 border-dashed rounded-md cursor-pointer text-gray-600 hover:border-sky-500 hover:bg-sky-50 bg-white"
             >
               <UploadCloud className="w-5 h-5" />
@@ -194,7 +195,7 @@ export function MarcoItem({
               </span>
             </label>
             <input
-              id={`file-input-${execucao.codExecucaoMarco}`} 
+              id={`file-input-${execucao.codExecucaoMarco}`}
               type="file"
               ref={fileInputRef}
               onChange={e =>

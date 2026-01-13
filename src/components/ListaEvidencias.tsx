@@ -3,6 +3,7 @@ import { api } from "@/lib/api"
 import { toast } from "sonner"
 import { ChevronDown, Trash2, FileText } from "lucide-react"
 import { ImagemModal } from "./ImagemModal"
+import { env } from "@/types/env"
 
 interface ListaEvidenciasProps {
   codProjeto: number
@@ -10,16 +11,16 @@ interface ListaEvidenciasProps {
   refreshKey: number
 }
 
-interface Evidencia { 
-  codEvidenciaApresentada: number 
-  caminhoArquivo: string 
-  dataUpload: string 
-  codEvidenciaDemandada: number 
-} 
-interface Relatorio { 
-  codRelGer: number 
-  caminhoArquivo: string 
-  dataUpload: string 
+interface Evidencia {
+  codEvidenciaApresentada: number
+  caminhoArquivo: string
+  dataUpload: string
+  codEvidenciaDemandada: number
+}
+interface Relatorio {
+  codRelGer: number
+  caminhoArquivo: string
+  dataUpload: string
 }
 
 export function ListaEvidencias({
@@ -90,9 +91,8 @@ export function ListaEvidencias({
         className="flex items-center text-sm text-sky-800 font-semibold hover:underline"
       >
         <ChevronDown
-          className={`mr-1 h-4 w-4 transform transition-transform duration-200 ${
-            aberto ? "rotate-180" : ""
-          }`}
+          className={`mr-1 h-4 w-4 transform transition-transform duration-200 ${aberto ? "rotate-180" : ""
+            }`}
         />
         Evidências e Relatórios
       </button>
@@ -103,7 +103,6 @@ export function ListaEvidencias({
             <p className="text-sm text-gray-500">Carregando dados...</p>
           ) : (
             <>
-              {/* Evidências */}
               <div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2">
                   Evidências
@@ -115,7 +114,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {evidencias.map((ev) => {
-                      const url = `http://localhost:3000/uploads/${ev.caminhoArquivo}`
+                      const url = env.API_BASE_URL + `/uploads/${ev.caminhoArquivo}`
                       const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(ev.caminhoArquivo)
 
                       return (
@@ -159,7 +158,6 @@ export function ListaEvidencias({
                 )}
               </div>
 
-              {/* Relatórios */}
               <div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2">
                   Relatórios
@@ -171,7 +169,7 @@ export function ListaEvidencias({
                 ) : (
                   <ul className="space-y-2">
                     {relatorios.map((rel) => {
-                      const url = `http://localhost:3000/uploads/${rel.caminhoArquivo}`
+                      const url = env.API_BASE_URL + `/uploads/${rel.caminhoArquivo}`
                       return (
                         <li
                           key={rel.codRelGer}
